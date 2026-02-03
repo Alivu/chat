@@ -1,53 +1,3653 @@
-{
-  "name": "ЭлектроСмета", 
-  "short_name": "ЭлектроСмета",
-  "description": "Профессиональный расчет смет для электриков ЧР",
-  "start_url": "https://alivu.github.io/Electric_Group/",
-  "scope": "https://alivu.github.io/Electric_Group/",
-  "display": "standalone",
-  "background_color": "#f5f7fa",
-  "theme_color": "#2c3e50",
-  "orientation": "portrait",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/Alivu/alivu.github.io/main/Icon/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png"
-    },
-    {
-      "src": "https://raw.githubusercontent.com/Alivu/alivu.github.io/main/Icon/icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png"
-    },
-    {
-      "src": "https://raw.githubusercontent.com/Alivu/alivu.github.io/main/Icon/icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    },
-    {
-      "src": "https://raw.githubusercontent.com/Alivu/alivu.github.io/main/Icon/icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png"
-    },
-    {
-      "src": "https://raw.githubusercontent.com/Alivu/alivu.github.io/main/Icon/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png"
-    },
-    {
-      "src": "https://raw.githubusercontent.com/Alivu/alivu.github.io/main/Icon/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "https://raw.githubusercontent.com/Alivu/alivu.github.io/main/Icon/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png"
-    },
-    {
-      "src": "https://raw.githubusercontent.com/Alivu/alivu.github.io/main/Icon/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
+    <meta property="og:title" content="Чат Электротехнического Сообщества «Electric Group»">
+    <meta property="og:description" content="Профессиональное сообщество электриков. Обсуждение, помощь, решения.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://alivu.github.io/chat/">
+    <meta property="og:image" content="https://alivu.github.io/Icon/icon-512x512.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Чат Электротехнического Сообщества «Electric Group»">
+    <meta name="twitter:description" content="Профессиональное сообщество электриков. Обсуждение, помощь, решения.">
+    <meta name="twitter:image" content="https://alivu.github.io/Icon/icon-512x512.png">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+    <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+
+/* АВАТАРКА СЛЕВА (уменьшена в 5 раз) */
+.message-avatar-left {
+    width: 45px;     /* Было 45px ÷ 5 = 9px */
+    height: 45px;    /* Было 45px ÷ 5 = 9px */
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid #2c5364; /* Уменьшил границу */
+    flex-shrink: 0;
+    margin-top: 3px; /* Уменьшил отступ */
 }
+
+/* Для инициалов в аватаре (если нет фото) */
+.message-avatar-left div {
+    font-size: 1.2em; /* Уменьшил шрифт */
+    font-weight: bold;
+}
+        
+        /* ИМЯ ОТПРАВИТЕЛЯ ВНУТРИ РАМКИ */
+
+    font-weight: 600;
+    color: #2c5364;
+    font-size: 0.8em;           /* Чуть уменьшил Arbi Israilov*/
+    margin: 5px 0 8px 0;        /* Уменьшил отступы, особенно верхний */
+    padding-left: 5px;
+    font-style: italic;
+    border-bottom: 1px solid rgba(44, 83, 100, 0.1);
+    padding-bottom: 5px;        /* Уменьшил отступ снизу */
+    transform: translateY(-1px); /* ПОДНИМАЕМ ВВЕРХ */
+    position: relative;
+    z-index: 2;
+}
+/* Для сообщений справа (отправленных) */
+.message.sent .message-sender-inside {
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: right;
+    padding-right: 5px;
+    padding-left: 0;
+}
+        /* СТИЛИ ДЛЯ АУДИОЗАПИСИ */
+        .audio-btn {
+            background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-right: 5px;
+        }
+
+        .audio-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        .audio-btn.recording {
+            background: #dc3545;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .audio-recording-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .audio-recording-modal {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .recording-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .recording-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .recording-dot {
+            width: 12px;
+            height: 12px;
+            background: #dc3545;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        .recording-timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c5364;
+            font-family: monospace;
+        }
+
+        .audio-visualizer {
+            height: 100px;
+            margin: 25px 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .visualizer-bar {
+            width: 8px;
+            background: linear-gradient(to top, #2c5364, #4CAF50);
+            border-radius: 4px 4px 0 0;
+            min-height: 5px;
+        }
+
+        .recording-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .cancel-recording-btn, .stop-recording-btn {
+            padding: 12px 25px;
+            border-radius: 25px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .cancel-recording-btn {
+            background: #f8f9fa;
+            color: #666;
+            border: 2px solid #ddd;
+        }
+
+        .cancel-recording-btn:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .stop-recording-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            border: 2px solid #4CAF50;
+        }
+
+        .stop-recording-btn:hover {
+            background: linear-gradient(135deg, #45a049 0%, #1B5E20 100%);
+            transform: translateY(-2px);
+        }
+
+        .recording-tip {
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .audio-preview-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .audio-preview-modal {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .audio-preview-modal h3 {
+            color: #2c5364;
+            margin-bottom: 25px;
+        }
+
+        .audio-player {
+            margin: 25px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .audio-player audio {
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .audio-duration {
+            font-weight: bold;
+            color: #2c5364;
+            min-width: 50px;
+        }
+
+        .preview-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 25px 0;
+        }
+
+        .delete-audio-btn, .send-audio-btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .delete-audio-btn {
+            background: #f8f9fa;
+            color: #dc3545;
+            border: 2px solid #dc3545;
+        }
+
+        .delete-audio-btn:hover {
+            background: #dc3545;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .send-audio-btn {
+            background: linear-gradient(135deg, #2c5364 0%, #203a43 100%);
+            color: white;
+            border: 2px solid #2c5364;
+        }
+
+        .send-audio-btn:hover {
+            background: linear-gradient(135deg, #203a43 0%, #0f2027 100%);
+            transform: translateY(-2px);
+        }
+
+        .audio-info {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .audio-message {
+            margin-top: 10px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid #e9ecef;
+        }
+
+        .audio-message audio {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .audio-message-info {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+.quote-preview {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(56, 142, 60, 0.1) 100%);
+    border-left: 4px solid #4CAF50;
+    padding: 12px 15px;
+    border-radius: 8px;
+    position: fixed;
+    bottom: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 50px);
+    max-width: 800px;
+    z-index: 100;
+    display: none;
+    box-shadow: 0 -2px 10px rgba(76, 175, 80, 0.15);
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+        .quote-content {
+            position: relative;
+            padding-right: 25px;
+        }
+
+.quote-content strong {
+    color: #22150F; /* Темно-коричневый шеколад */
+    font-size: 0.9em;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.quote-content span {
+    color: #666666; /* Темно-серый вместо*/
+    font-size: 0.9em;
+    line-height: 1.4;
+    display: block;
+    word-break: break-word;
+    font-style: italic;
+}
+
+.cancel-quote-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #4CAF50;
+    border: 2px solid white;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+    transition: all 0.3s ease;
+}
+
+.cancel-quote-btn:hover {
+    background: #45a049;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 3px 8px rgba(76, 175, 80, 0.4);
+}
+
+.quoted-message {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.12) 0%, rgba(56, 142, 60, 0.08) 100%);
+    border-left: 3px solid #4CAF50; /* Ярко-зеленая рамка */
+    padding: 12px 15px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    font-size: 0.85em;
+    max-width: 100%;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(102, 187, 106, 0.1);
+    position: relative;
+}
+/* Стили для цитаты аудио */
+.quoted-message.audio-quote {
+    background: rgba(255, 255, 255, 0.7);
+    border-left: 3px solid #4CAF50;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+}
+
+.quoted-message.audio-quote .quote-author {
+    font-weight: 600;
+    font-size: 0.95em;
+}       
+.quote-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(76, 175, 80, 0.2);
+}
+.quote-title {
+    font-size: 0.8em;
+    color: #444444;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.quote-title::before {
+    content: "↪️";
+    font-size: 0.9em;
+    opacity: 0.7;
+}
+ .quote-author {
+    font-weight: 600;
+    color: #22150F; /* тёмный красно-коричневый */
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    display: block;
+}       
+
+.quote-text {
+    color: #444444; /* более тёмно-серое: */
+    line-height: 1.4;
+    font-style: italic;
+    display: block;
+    word-break: break-word;
+    opacity: 0.9;
+}
+
+.quote-audio-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    padding: 8px 10px;
+    background: rgba(76, 175, 80, 0.1);
+    border-radius: 6px;
+}
+
+.audio-icon {
+    font-size: 1.2em;
+}
+.audio-duration-quote {
+    color: #666;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+/* Стили для основного аудио сообщения */
+.audio-message-main {
+    background: linear-gradient(135deg, rgba(44, 83, 100, 0.1) 0%, rgba(32, 58, 67, 0.05) 100%);
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 8px;
+}
+        /* Аудиоплеер */
+.audio-player-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.play-pause-btn {
+    /* ОСНОВНЫЕ СВОЙСТВА */
+    background: #f8f9fa;                /* Светло-серый фон - нейтральный, не отвлекает */
+    color: #2c5364;                     /* Темный сине-зеленый цвет иконки (соответствует основной теме чата) */
+    border: 2px solid #dee2e6;          /* Светло-серая рамка - тонкое разделение от фона */
+    
+    /* РАЗМЕР И ФОРМА */
+    width: 36px;                        /* Диаметр кнопки - оптимальный для нажатия пальцем */
+    height: 36px;                       /* Высота равна ширине для создания круга */
+    border-radius: 50%;                 /* Делает кнопку идеально круглой (50% от размеров) */
+    
+    /* ВЫРАВНИВАНИЕ СОДЕРЖИМОГО */
+    display: flex;                      /* Включаем Flexbox для центрирования */
+    align-items: center;                /* Центрируем по вертикали */
+    justify-content: center;            /* Центрируем по горизонтали */
+    
+    /* ТЕКСТ/ИКОНКА */
+    font-size: 1.1em;                   /* Размер иконки немного больше базового */
+    flex-shrink: 0;                     /* Запрещаем сжатие кнопки при нехватке места */
+    
+    /* ИНТЕРАКТИВНОСТЬ */
+    cursor: pointer;                    /* Меняем курсор на "руку" при наведении */
+    transition: all 0.3s;               /* Плавная анимация всех свойств за 0.3 секунды */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Легкая тень для создания объема */
+}
+
+/* ЭФФЕКТ ПРИ НАВЕДЕНИИ КУРСОРА */
+.play-pause-btn:hover {
+    background: #ffffff;                /* Меняем фон на чисто белый */
+    transform: scale(1.05);             /* Увеличиваем кнопку на 5% */
+    border-color: #2c5364;              /* Меняем цвет рамки на основной цвет темы */
+    box-shadow: 0 4px 12px rgba(44, 83, 100, 0.15); /* Усиливаем тень */
+}
+
+/* ЭФФЕКТ ПРИ НАЖАТИИ (АКТИВНОЕ СОСТОЯНИЕ) */
+.play-pause-btn:active {
+    transform: scale(0.98);             /* Легкое сжатие кнопки (эффект нажатия) */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Уменьшаем тень */
+}
+  /* СОСТОЯНИЕ КОГДА АУДИО ВОСПРОИЗВОДИТСЯ */
+.play-pause-btn.playing {
+    background: #2c5364;                /* Темный фон как в основной теме */
+    color: white;                       /* Белая иконка для контраста */
+    border-color: #2c5364;              /* Рамка того же цвета что и фон */
+}      
+.audio-waveform-container {
+    position: relative;
+    flex: 1;
+    height: 40px;
+    background: rgba(44, 83, 100, 0.1);
+    border-radius: 20px;
+    cursor: pointer;
+    overflow: hidden;
+}
+.play-icon {
+    color: #2c5364;
+    font-size: 1.5em;
+    font-weight: bold;
+    min-width: 30px;
+}
+.audio-waveform {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 100%;
+    padding: 0 15px;
+    position: relative;
+    z-index: 1;
+}
+/* ВНЕШНЯЯ РАМКА СООБЩЕНИЯ С ЦИТАТОЙ (300px) */
+.message-with-quote {
+    width: 300px;    /* Было 320px ÷ 3 = 107px */
+    height: 160px;   /* Было 300px ÷ 3 = 100px */
+    border: 1px solid #2c5364; /* Уменьшил границу */
+    border-radius: 6px; /* Уменьшил скругление */
+    padding: 4px;    /* Уменьшил отступы */
+    background: white;
+    box-shadow: 0 2px 6px rgba(44, 83, 100, 0.1);
+    font-size: 1.2em; /* Уменьшил шрифт */
+}
+
+/* РАМКА ЦИТАТЫ (135px, сероватая) */
+.quote-frame {
+    width: calc(100% - 6px); /* Было 10px ÷ 3 ≈ 3px × 2 = 6px */
+    height: 50px;    /* Было 135px ÷ 3 = 45px */
+    margin: 2px;     /* Было 5px ÷ 3 ≈ 2px */
+    border: 0.5px solid #e0e0e0; /* Уменьшил границу */
+    border-radius: 4px; /* Уменьшил скругление */
+    background: rgba(240, 240, 240, 0.7);
+    padding: 5px;    /* Уменьшил отступы */
+}
+
+.inner-quote-frame {
+    text-align: left;
+    margin-left: 3px;      /* Внешний отступ слева */
+    margin-top: -7px;       /* Отрицательный отступ поднимет блок */
+}
+
+.quote-author-inner {
+    font-weight: 600;
+    color: #1B5E20;
+    font-size: 1em;
+    margin-bottom: 8px;
+}
+
+.quote-audio-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Изменил с center на flex-start для сдвига влево */
+    gap: 6px;                    /* Уменьшил расстояние между иконкой и временем */
+    color: #666;
+    font-size: 0.8em;            /* Чуть уменьшил шрифт */
+    text-align: left;
+    margin-left: -8px;           /* УВЕЛИЧИЛ отрицательный отступ для сдвига влево */
+    margin-top: -9px;           /* УВЕЛИЧИЛ отрицательный отступ для большего подъема */
+    transform: translateY(0px); /* Дополнительный подъем */
+    padding-left: 5px;           /* Внутренний отступ слева для баланса */
+}
+
+.quote-audio-icon {
+    font-size: 1em;
+    margin-top: -1px;           /* УВЕЛИЧИЛ отрицательный отступ для большего подъема */
+}
+
+.quote-text-inner {
+    color: #555;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+/* ИМЯ ОТПРАВИТЕЛЯ (под рамкой цитаты) */
+.message-sender {
+    font-weight: 600;
+    color: #2c5364;
+    font-size: 1em;
+    margin: 15px 0 10px 0;
+    padding-left: 5px;
+}
+
+/* РАМКА АУДИО ПЛЕЙЕРА (160px) */
+.audio-player-frame {
+    height: 70px;    /* Было 160px ÷ 3 = 53px */
+    padding: 6px;    /* Было 15px ÷ 3 = 5px */
+    border: none;                /* Убрать рамку */
+    border-radius: 5px; /* Уменьшил скругление */
+    background: none;           /* Прозрачный фон */
+    box-shadow: none;           /* Убрать тень */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    margin-top: 2px;             /* Добавил отступ сверху (опускаем) */
+    transform: translateY(-8px);   /* Опускаем весь плеер */
+}
+
+/* СТРОКА С КНОПКОЙ И ВОЛНОЙ */
+.audio-controls-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    transform: translateY(10px);   /* Опускаем строку */
+}
+
+/* КНОПКА ВОСПРОИЗВЕДЕНИЯ */
+.play-btn-audio {
+    background: #e8f2fc;
+    border: 2px solid #2c5364;
+    color: #9fa0a1;
+    width: 30px;     /* Было 40px ÷ 3 = 13px */
+    height: 30px;    /* Было 40px ÷ 3 = 13px */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex-shrink: 0;
+    padding: 0;
+    border: none;
+    font-size: 1em; /* Уменьшил иконку */
+}
+
+.play-btn-audio:hover {
+    background: #2c5364;
+    color: white;
+    transform: scale(1.05);
+}
+.message.sent .play-btn-audio:hover {
+    background: white;
+    color: #203a43;
+}
+/* КОНТЕЙНЕР ВОЛНЫ */
+.waveform-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 30px;    /* Было 36px ÷ 3 = 12px */
+    flex: 1;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 6px; /* Уменьшил скругление */
+    padding: 0 4px;  /* Уменьшил отступы */
+    border: 1px solid #e9ecef;
+}
+.wave-bar {
+    width: 1px;      /* Было 3px ÷ 3 = 1px */
+    background: linear-gradient(to top, #2c5364, #4CAF50);
+    border-radius: 0.5px; /* Уменьшил скругление */
+    min-height: 2px; /* Было 6px ÷ 3 = 2px */
+    transition: height 0.2s;
+    
+}
+  /* СТРОКА С ВРЕМЕНЕМ */
+.audio-time-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2px;  /* Уменьшил отступы */
+    font-size: 1em; /* Уменьшил шрифт */
+}      
+.audio-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(76, 175, 80, 0.2);
+    width: 0%;
+    border-radius: 20px;
+    z-index: 0;
+    transition: width 0.1s;
+}
+        
+.audio-info-main {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(44, 83, 100, 0.1);
+    font-size: 0.9em;
+}
+.audio-current-time {
+    color: #2c5364;
+    font-weight: bold;
+    min-width: 40px;
+}
+
+        
+.audio-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 5px;
+}
+.audio-duration-main {
+    color: #666;
+    min-width: 40px;
+}
+
+.audio-duration {
+    color: #2c5364;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.message-time-audio {
+    color: #666;
+    font-size: 0.9em;
+}
+        /* ПРОСТАЯ РАМКА БЕЗ ЦИТАТЫ */
+.simple-audio-frame {
+    width: 300px;     /* Было 280px ÷ 3 = 93px */
+    min-height: 100px; /* Было 180px ÷ 3 = 60px */
+    border: 1px solid #2c5364;
+    border-radius: 6px;
+    padding: 6px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(44, 83, 100, 0.1);
+    font-size: 1.2em; /* Уменьшил шрифт */
+}
+        /* Разделитель между именем и текстом в текстовых сообщениях */
+.message-text-content {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(44, 83, 100, 0.1);
+}
+     .text-message-frame {
+    max-width: 300px; /* Было 400px ÷ 3 = 133px */
+    min-width: 50px;  /* Было 200px ÷ 3 = 67px */
+    padding: 6px;    /* Уменьшил отступы */
+    border-radius: 9px; /* Уменьшил скругление */
+    background: white;
+    border: 1px solid #e9ecef;
+    line-height: 1.4;
+    word-break: break-word;
+    font-size: 1.2em; /* Уменьшил шрифт */
+}   
+.audio-time-sent {
+    color: #888;
+    margin-left: auto;
+}
+.audio-player-hidden {
+    display: none;
+}
+.audio-time {
+    color: #888;
+    font-size: 0.8em;
+}
+        /* ОСНОВНЫЕ СТИЛИ */
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #FF9800;
+        }
+
+        h1 {
+            color: #2c5364;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .online-stats {
+            background: linear-gradient(135deg, #2c5364 0%, #203a43 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 10px 30px rgba(44, 83, 100, 0.3);
+        }
+
+        .online-count {
+            font-size: 3.5rem;
+            font-weight: bold;
+            display: block;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .online-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            background: #4285F4;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 16px 30px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3);
+        }
+
+        .google-btn:hover {
+            background: #3367D6;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(66, 133, 244, 0.4);
+        }
+
+        .google-btn img {
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            padding: 4px;
+        }
+
+        .benefits {
+            text-align: left;
+            margin-top: 30px;
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #FF9800;
+        }
+
+        .benefits h3 {
+            color: #2c5364;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .benefits ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .benefits li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            border-bottom: 1px solid #eee;
+        }
+
+        .benefits li:last-child {
+            border-bottom: none;
+        }
+
+        .benefits li:before {
+            content: "⚡";
+            color: #FF9800;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 1200px;
+            height: 90vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #2c5364 0%, #203a43 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-details h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .user-details p {
+            margin: 5px 0 0 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .chat-stats {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .online-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .online-dot {
+            width: 10px;
+            height: 10px;
+            background: #4CAF50;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .messages-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #f8f9fa;
+            overflow: hidden;
+        }
+
+        .messages-container {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            -webkit-overflow-scrolling: touch;
+            min-height: 0;
+        }
+
+        .message {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            max-width: 70%;
+            animation: messageAppear 0.3s ease-out;
+            flex-shrink: 0;
+        }
+
+        @keyframes messageAppear {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.sent {
+            align-self: flex-end;
+        }
+
+        .message.received {
+            align-self: flex-start;
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+            padding: 0 10px;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .message-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .message-author {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #2c5364;
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .message-content {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .message.sent .message-content {
+            background: linear-gradient(135deg, #2c5364 0%, #203a43 100%);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.received .message-content {
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-actions {
+            display: none;
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 6px 10px;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .message.sent:hover .message-actions,
+        .message.received:hover .message-actions {
+            display: flex;
+            gap: 8px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .edit-btn, .delete-btn {
+            background: none;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+        }
+
+        .edit-btn {
+            color: #2c5364;
+            background: rgba(44, 83, 100, 0.1);
+            border: 1px solid rgba(44, 83, 100, 0.2);
+        }
+
+        .edit-btn:hover {
+            background: rgba(44, 83, 100, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .delete-btn {
+            color: #dc3545;
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid rgba(220, 53, 69, 0.2);
+        }
+
+        .delete-btn:hover {
+            background: rgba(220, 53, 69, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .edit-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #2c5364;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: none;
+            min-height: 70px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .edit-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .save-btn, .cancel-btn {
+            padding: 10px 24px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #2c5364 0%, #203a43 100%);
+            color: white;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(44, 83, 100, 0.3);
+        }
+
+        .cancel-btn {
+            background: #f8f9fa;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .cancel-btn:hover {
+            background: #e9ecef;
+        }
+
+        .edited-badge {
+            font-size: 0.75rem;
+            color: #888;
+            font-style: italic;
+            margin-left: 8px;
+            opacity: 0.8;
+        }
+
+        .message-input-area {
+            padding: 20px 25px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 15px 25px;
+            border: 2px solid #e9ecef;
+            border-radius: 30px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            -webkit-appearance: none;
+        }
+
+        .message-input:focus {
+            border-color: #2c5364;
+            box-shadow: 0 0 0 3px rgba(44, 83, 100, 0.1);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);
+            color: white;
+            border: none;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+            flex-shrink: 0;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 152, 0, 0.4);
+        }
+
+        .typing-indicator {
+            padding: 10px 20px;
+            background: #e9ecef;
+            border-radius: 20px;
+            margin: 0 25px 15px;
+            font-style: italic;
+            color: #666;
+            display: none;
+            flex-shrink: 0;
+        }
+
+        .message.system {
+            align-self: center;
+            max-width: 90%;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .message.editing {
+            animation: pulseHighlight 2s infinite;
+        }
+
+        .message.editing .message-content {
+            box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.4);
+            border: 2px solid #FF9800;
+            transform: translateY(-2px);
+        }
+
+        @keyframes pulseHighlight {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+            100% { transform: scale(1); }
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 70vh;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: #2c5364;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        .modal-btn {
+            background: #2c5364;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .loading {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
+
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+            
+            .chat-container {
+                height: 100vh;
+                height: -webkit-fill-available;
+                border-radius: 0;
+                max-width: 100%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+            
+            .login-container {
+                padding: 25px;
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .online-count {
+                font-size: 2.5rem;
+            }
+            
+            .chat-header {
+                padding: 8px 15px;
+                padding-top: max(8px, env(safe-area-inset-top));
+                min-height: 60px;
+            }
+            
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .user-details h3 {
+                font-size: 0.9rem;
+                max-width: 120px;
+            }
+            
+            .user-details p {
+                font-size: 0.75rem;
+                max-width: 120px;
+            }
+            
+            .chat-stats {
+                gap: 2px;
+                height: 40px;
+            }
+            
+            .online-badge {
+                padding: 4px 6px;
+                font-size: 0.8rem;
+                height: 32px;
+            }
+            
+            .online-dot {
+                width: 8px;
+                height: 8px;
+            }
+            
+            .back-btn, .logout-btn {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+                height: 32px;
+                min-width: 55px;
+            }
+            
+            .messages-container {
+                padding: 15px 15px 95px;
+            }
+            
+            .message {
+                max-width: 85%;
+            }
+            
+            .message-input-area {
+                padding: 12px 15px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                z-index: 100;
+                border-top: 1px solid #e9ecef;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+            }
+            
+            .messages-wrapper {
+                padding-bottom: calc(70px + env(safe-area-inset-bottom));
+            }
+            
+            .quote-preview {
+                position: fixed;
+                bottom: 60px;
+                left: 15px;
+                right: 15px;
+                margin: 0 !important;
+                padding: 10px 12px;
+                z-index: 1000;
+                border-radius: 8px 8px 0 0;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            }
+
+            .quote-preview:hover {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(56, 142, 60, 0.15) 100%);
+    transform: translateX(-50%) translateY(-2px);
+    transition: all 0.3s ease;
+    box-shadow: 0 -2px 15px rgba(76, 175, 80, 0.2);
+}
+            
+            .messages-container {
+                padding-bottom: 120px !important;
+            }
+            
+            .message-actions {
+                top: -12px;
+                right: 10px;
+                padding: 5px 8px;
+            }
+            
+            .edit-btn, .delete-btn {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+                min-width: 35px;
+            }
+            
+            .message.sent:active .message-actions {
+                display: flex;
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            .message.sent .message-content {
+                position: relative;
+                padding-right: 40px;
+            }
+            
+            .audio-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+                margin-right: 8px;
+            }
+            
+            .audio-recording-modal {
+                padding: 20px;
+                margin: 15px;
+                width: calc(100% - 30px);
+            }
+            
+            .recording-controls {
+                flex-direction: column;
+            }
+            
+            .cancel-recording-btn, .stop-recording-btn {
+                width: 100%;
+            }
+            
+            .audio-player {
+                flex-direction: column;
+            }
+            
+            .preview-controls {
+                flex-direction: column;
+            }
+            
+            .delete-audio-btn, .send-audio-btn {
+                width: 100%;
+            }
+        }
+        
+        /* === НОВЫЕ СТИЛИ ДЛЯ ДОПОЛНИТЕЛЬНЫХ ФУНКЦИЙ === */
+        
+        /* Кнопка смайликов */
+        .emoji-btn {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+        
+        .emoji-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        /* Кнопка вложений */
+        .attachment-btn {
+            background: linear-gradient(135deg, #9C27B0 0%, #673AB7 100%);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-right: 10px;
+            position: relative;
+        }
+        
+        .attachment-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.3);
+        }
+        
+        /* Меню вложений */
+        .attachment-menu {
+            position: absolute;
+            bottom: 70px;
+            left: 20px;
+            background: white;
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            min-width: 200px;
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .attachment-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.2s;
+            color: #333;
+            text-decoration: none;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .attachment-menu-item:hover {
+            background: #f5f5f5;
+            transform: translateX(5px);
+        }
+        
+        .attachment-menu-item .icon {
+            font-size: 1.5rem;
+            width: 30px;
+            text-align: center;
+        }
+        
+        .attachment-menu-item .text {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .attachment-menu-item .shortcut {
+            color: #888;
+            font-size: 0.85rem;
+        }
+        
+        /* Адаптивная кнопка отправки */
+        .send-btn.microphone-mode {
+            background: linear-gradient(135deg, #2196F3 0%, #0D47A1 100%);
+            content: "🎤";
+        }
+        
+        .send-btn.microphone-mode:hover {
+            background: linear-gradient(135deg, #0D47A1 0%, #0a2e5e 100%);
+        }
+        
+        /* Скрытый input для файлов */
+        .file-input-hidden {
+            display: none;
+        }
+        
+        /* Панель смайликов */
+        .emoji-picker {
+            position: absolute;
+            bottom: 70px;
+            left: 20px;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+        
+        .emoji-category {
+            margin-bottom: 20px;
+        }
+        
+        .emoji-category-title {
+            font-weight: 600;
+            color: #2c5364;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 8px;
+        }
+        
+        .emoji-item {
+            font-size: 1.5rem;
+            cursor: pointer;
+            text-align: center;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .emoji-item:hover {
+            background: #f0f0f0;
+            transform: scale(1.2);
+        }
+        
+        /* Оверлей для закрытия меню */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: transparent;
+            z-index: 999;
+            display: none;
+        }
+        
+        /* Адаптивность для новых кнопок */
+        @media (max-width: 768px) {
+            .emoji-btn, .attachment-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+                margin-right: 5px;
+            }
+            
+            .attachment-menu, .emoji-picker {
+                left: 10px;
+                right: 10px;
+                bottom: 60px;
+                width: calc(100% - 20px);
+            }
+            
+            .emoji-picker {
+                max-height: 300px;
+            }
+        }
+        
+        /* Стили для сообщений с файлами */
+        .file-message {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 10px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .file-preview {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+        
+        .file-icon {
+            font-size: 2rem;
+            color: #2c5364;
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            word-break: break-all;
+        }
+        
+        .file-size {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .download-btn {
+            background: #2c5364;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .download-btn:hover {
+            background: #203a43;
+            transform: translateY(-2px);
+        }
+        
+        /* Индикатор записи на кнопке */
+        .send-btn.recording {
+            animation: pulse 1s infinite;
+            background: #dc3545;
+        }
+        
+        .send-btn.recording:hover {
+            background: #c82333;
+        }
+    </style>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+</head>
+<body>
+    <!-- Экран входа -->
+    <div class="login-container" id="loginScreen">
+        <div class="logo">🔌</div>
+        <h1>Электротехническое Сообщество «Electric Group</h1>
+        <p class="subtitle">Профессиональное сообщество для обмена опытом, обсуждения проектов и решения сложных задач</p>
+        
+        <div class="online-stats">
+            <span class="online-count" id="onlineCount">0</span>
+            <span class="online-label">электриков онлайн сейчас</span>
+        </div>
+        
+        <button class="google-btn" id="googleLoginBtn">
+            <img src="https://www.google.com/favicon.ico" alt="Google">
+            Войти через Google
+        </button>
+        
+        <div class="benefits">
+            <h3><span>⚡</span> Что даёт наш чат электрикам:</h3>
+            <ul>
+                <li>Обсуждаем любые монтажные задачи</li>
+                <li>Помогаем с ПУЭ и другими нормами</li>
+                <li>Подбираем оборудование и материалы</li>
+                <li>Обмениваемся схемами и проектами</li>
+                <li>Координируем работу на объектах</li>
+            </ul>
+        </div>
+        
+        <div class="status" id="statusMessage"></div>
+    </div>
+    
+    <!-- Экран чата -->
+    <div class="chat-container" id="chatScreen">
+        <!-- Шапка чата -->
+        <div class="chat-header">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar"></div>
+                <div class="user-details">
+                    <h3 id="userName">Пользователь</h3>
+                    <p id="userEmail">email@example.com</p>
+                </div>
+            </div>
+            
+            <div class="chat-stats">
+                <div class="online-badge" id="onlineBadge" style="cursor: pointer;">
+                    <span class="online-dot"></span>
+                    <span id="activeOnlineCount">0</span> онлайн
+                </div>
+                <button class="back-btn" id="backBtn">Назад</button>
+                <button class="logout-btn" id="logoutBtn">Выйти</button>
+            </div>
+        </div>
+        
+        <!-- Контейнер сообщений -->
+        <div class="messages-wrapper">
+            <!-- Индикатор "печатает" -->
+            <div class="typing-indicator" id="typingIndicator"></div>
+            
+            <!-- Блок для превью цитаты -->
+            <div class="quote-preview" id="quotePreview" style="display: none;">
+                <div class="quote-content">
+                    <strong id="quoteAuthor">Автор</strong>
+                    <span id="quoteText">Текст цитаты...</span>
+                    <button class="cancel-quote-btn" id="cancelQuoteBtn">×</button>
+                </div>
+            </div>
+            
+            <!-- Сообщения -->
+            <div class="messages-container" id="messagesContainer">
+                <div class="message system">
+                    <div class="message-content" style="text-align: center; background: #e9ecef; color: #666;">
+                        Добро пожаловать в профессиональный чат электриков! Начните общение.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Поле ввода -->
+            <div class="message-input-area">
+                <!-- Кнопка смайликов -->
+                <button class="emoji-btn" id="emojiBtn" title="Смайлики">😊</button>
+                
+                <!-- Кнопка вложений -->
+                <button class="attachment-btn" id="attachmentBtn" title="Вложения">📎</button>
+                
+                <input type="text" class="message-input" id="messageInput" placeholder="Напишите сообщение..." maxlength="1000">
+                
+                <!-- Кнопка отправки/микрофона -->
+                <button class="send-btn" id="sendMessageBtn">➤</button>
+                
+                <!-- Скрытые input для файлов -->
+                <input type="file" id="photoInput" accept="image/*" capture="environment" class="file-input-hidden">
+                <input type="file" id="videoInput" accept="video/*" class="file-input-hidden">
+                <input type="file" id="documentInput" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt" class="file-input-hidden">
+                <input type="file" id="audioInput" accept="audio/*" class="file-input-hidden">
+                <input type="file" id="contactInput" accept=".vcf,.vcard" class="file-input-hidden">
+            </div>
+        </div>
+    </div>
+    
+    <!-- Меню вложений -->
+    <div class="attachment-menu" id="attachmentMenu">
+        <button class="attachment-menu-item" id="attachPhotoBtn">
+            <span class="icon">📷</span>
+            <span class="text">Фото</span>
+            <span class="shortcut">Камера/Галерея</span>
+        </button>
+        <button class="attachment-menu-item" id="attachVideoBtn">
+            <span class="icon">🎥</span>
+            <span class="text">Видео</span>
+            <span class="shortcut">До 100MB</span>
+        </button>
+        <button class="attachment-menu-item" id="attachDocumentBtn">
+            <span class="icon">📄</span>
+            <span class="text">Документ</span>
+            <span class="shortcut">PDF, DOC, TXT</span>
+        </button>
+        <button class="attachment-menu-item" id="attachAudioBtn">
+            <span class="icon">🎵</span>
+            <span class="text">Аудио</span>
+            <span class="shortcut">MP3, WAV</span>
+        </button>
+        <button class="attachment-menu-item" id="attachContactBtn">
+            <span class="icon">👤</span>
+            <span class="text">Контакты</span>
+            <span class="shortcut">vCard</span>
+        </button>
+        <button class="attachment-menu-item" id="attachLocationBtn">
+            <span class="icon">📍</span>
+            <span class="text">Геоданные</span>
+            <span class="shortcut">GPS</span>
+        </button>
+    </div>
+    
+    <!-- Панель смайликов -->
+    <div class="emoji-picker" id="emojiPicker">
+        <div class="emoji-category">
+            <div class="emoji-category-title">Часто используемые</div>
+            <div class="emoji-grid" id="frequentEmojis">
+                <!-- Частые эмодзи будут добавляться динамически -->
+            </div>
+        </div>
+        <div class="emoji-category">
+            <div class="emoji-category-title">Улыбки и эмоции</div>
+            <div class="emoji-grid">
+                <div class="emoji-item" data-emoji="😀">😀</div>
+                <div class="emoji-item" data-emoji="😁">😁</div>
+                <div class="emoji-item" data-emoji="😂">😂</div>
+                <div class="emoji-item" data-emoji="🤣">🤣</div>
+                <div class="emoji-item" data-emoji="😃">😃</div>
+                <div class="emoji-item" data-emoji="😄">😄</div>
+                <div class="emoji-item" data-emoji="😅">😅</div>
+                <div class="emoji-item" data-emoji="😆">😆</div>
+                <div class="emoji-item" data-emoji="😉">😉</div>
+                <div class="emoji-item" data-emoji="😊">😊</div>
+                <div class="emoji-item" data-emoji="😋">😋</div>
+                <div class="emoji-item" data-emoji="😎">😎</div>
+                <div class="emoji-item" data-emoji="😍">😍</div>
+                <div class="emoji-item" data-emoji="😘">😘</div>
+                <div class="emoji-item" data-emoji="🥰">🥰</div>
+                <div class="emoji-item" data-emoji="😗">😗</div>
+            </div>
+        </div>
+        <div class="emoji-category">
+            <div class="emoji-category-title">Электрика и инструменты</div>
+            <div class="emoji-grid">
+                <div class="emoji-item" data-emoji="🔌">🔌</div>
+                <div class="emoji-item" data-emoji="💡">💡</div>
+                <div class="emoji-item" data-emoji="🔦">🔦</div>
+                <div class="emoji-item" data-emoji="🔋">🔋</div>
+                <div class="emoji-item" data-emoji="⚡">⚡</div>
+                <div class="emoji-item" data-emoji="🔧">🔧</div>
+                <div class="emoji-item" data-emoji="🔨">🔨</div>
+                <div class="emoji-item" data-emoji="⚙️">⚙️</div>
+                <div class="emoji-item" data-emoji="🔩">🔩</div>
+                <div class="emoji-item" data-emoji="🔗">🔗</div>
+                <div class="emoji-item" data-emoji="📏">📏</div>
+                <div class="emoji-item" data-emoji="📐">📐</div>
+                <div class="emoji-item" data-emoji="⚖️">⚖️</div>
+                <div class="emoji-item" data-emoji="🧰">🧰</div>
+                <div class="emoji-item" data-emoji="⚒️">⚒️</div>
+                <div class="emoji-item" data-emoji="🔬">🔬</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Оверлей для закрытия меню -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+    
+    <!-- Индикатор записи аудио -->
+    <div class="audio-recording-overlay" id="audioRecordingOverlay" style="display: none;">
+        <div class="audio-recording-modal">
+            <div class="recording-header">
+                <div class="recording-indicator">
+                    <span class="recording-dot"></span>
+                    <span>Запись...</span>
+                </div>
+                <div class="recording-timer" id="recordingTimer">00:00</div>
+            </div>
+            
+            <div class="audio-visualizer" id="audioVisualizer"></div>
+            
+            <div class="recording-controls">
+                <button class="cancel-recording-btn" id="cancelRecordingBtn">❌ Отмена</button>
+                <button class="stop-recording-btn" id="stopRecordingBtn">⏹️ Завершить (0:30)</button>
+            </div>
+            
+            <div class="recording-tip">🎤 Говорите четко. Максимум 60 секунд.</div>
+        </div>
+    </div>
+    
+    <!-- Превью аудио перед отправкой -->
+    <div class="audio-preview-overlay" id="audioPreviewOverlay" style="display: none;">
+        <div class="audio-preview-modal">
+            <h3>🎧 Прослушать аудиосообщение</h3>
+            
+            <div class="audio-player">
+                <audio controls id="audioPreviewPlayer">Ваш браузер не поддерживает аудио.</audio>
+                <div class="audio-duration" id="audioDuration">0:00</div>
+            </div>
+            
+            <div class="preview-controls">
+                <button class="delete-audio-btn" id="deleteAudioBtn">❌ Удалить</button>
+                <button class="send-audio-btn" id="sendAudioBtn">✅ Отправить</button>
+            </div>
+            
+            <div class="audio-info">
+                Размер: <span id="audioSize">0 KB</span>
+                | Длина: <span id="audioLength">0 сек</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно онлайн пользователей -->
+    <div class="modal-overlay" id="onlineModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>👥 Участники онлайн</h3>
+                <button class="modal-close" id="closeOnlineModal">×</button>
+            </div>
+            <div class="modal-body" id="onlineUsersList">
+                <div class="loading">Загрузка...</div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn" id="closeOnlineModalBtn">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // ========== КОНФИГУРАЦИЯ FIREBASE ==========
+    const firebaseConfig = {
+        apiKey: "AIzaSyCRJh0fFbJAc6dFz1O21SbjyAaPbMV58xc",
+        authDomain: "electrician-chat.firebaseapp.com",
+        projectId: "electrician-chat",
+        storageBucket: "electrician-chat.firebasestorage.app",
+        messagingSenderId: "1005885507362",
+        appId: "1:1005885507362:web:c030a98505761b0add877b"
+    };
+
+    // ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
+    let auth, db, storage;
+    let chat = null;
+
+    // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function showStatus(message, type) {
+        const statusEl = document.getElementById('statusMessage');
+        if (!statusEl) return;
+        
+        statusEl.textContent = message;
+        statusEl.className = 'status ' + type;
+        statusEl.style.display = 'block';
+        
+        setTimeout(() => {
+            if (statusEl) {
+                statusEl.style.display = 'none';
+            }
+        }, 3000);
+    }
+
+    // ========== КЛАСС ЭЛЕКТРИК ЧАТ ==========
+    class ElectricianChat {
+        constructor() {
+            console.log('🔴 Конструктор ElectricianChat ВЫЗВАН!');
+            
+            this.user = null;
+            this.roomId = 'brotherhood-electricians-chr'; // ← ИСПРАВЬТЕ ЭТО!
+            this.unsubscribeMessages = null;
+            this.unsubscribeOnline = null;
+            this.unsubscribeTyping = null;
+            this.firstMessageSent = false;
+            this.systemMessageRemoved = false;
+            
+            // RATE LIMITING
+            this.lastMessageTime = 0;
+            this.messageCooldown = 3000;
+            this.isSending = false;
+
+            // АУДИО ПЕРЕМЕННЫЕ
+            this.mediaRecorder = null;
+            this.audioChunks = [];
+            this.isRecording = false;
+            this.recordingStartTime = null;
+            this.recordingTimer = null;
+            this.maxRecordingTime = 60000;
+            this.currentAudioBlob = null;
+            this.audioContext = null;
+            this.analyser = null;
+            this.visualizerInterval = null;
+            this.pendingQuote = null;
+            
+            // ФУНКЦИОНАЛ СМАЙЛИКОВ И ВЛОЖЕНИЙ
+            this.attachmentMenuOpen = false;
+            this.emojiPickerOpen = false;
+            this.currentFile = null;
+            this.isMicrophoneMode = false;
+            this.isVoiceRecording = false;
+            
+            // ПРОКРУТКА
+            this.shouldAutoScroll = true;
+            this.userScrolledUp = false;
+            
+            this.init();
+        }
+        
+        // ========== НАЧАЛО: ИНИЦИАЛИЗАЦИЯ ==========
+        init() {
+            this.getDOMElements();
+            this.setupEventListeners();
+            this.setupAuthListener();
+            
+            console.log("✅ Чат инициализирован");
+        }
+        
+        getDOMElements() {
+            this.loginScreen = document.getElementById('loginScreen');
+            this.chatScreen = document.getElementById('chatScreen');
+            this.googleLoginBtn = document.getElementById('googleLoginBtn');
+            this.logoutBtn = document.getElementById('logoutBtn');
+            this.userName = document.getElementById('userName');
+            this.userEmail = document.getElementById('userEmail');
+            this.userAvatar = document.getElementById('userAvatar');
+            this.onlineCount = document.getElementById('onlineCount');
+            this.activeOnlineCount = document.getElementById('activeOnlineCount');
+            this.messagesContainer = document.getElementById('messagesContainer');
+            this.messageInput = document.getElementById('messageInput');
+            this.sendMessageBtn = document.getElementById('sendMessageBtn');
+            this.typingIndicator = document.getElementById('typingIndicator');
+            
+            // Новые элементы
+            this.emojiBtn = document.getElementById('emojiBtn');
+            this.attachmentBtn = document.getElementById('attachmentBtn');
+            this.attachmentMenu = document.getElementById('attachmentMenu');
+            this.emojiPicker = document.getElementById('emojiPicker');
+            this.menuOverlay = document.getElementById('menuOverlay');
+            
+            // Кнопки вложений
+            this.attachPhotoBtn = document.getElementById('attachPhotoBtn');
+            this.attachVideoBtn = document.getElementById('attachVideoBtn');
+            this.attachDocumentBtn = document.getElementById('attachDocumentBtn');
+            this.attachAudioBtn = document.getElementById('attachAudioBtn');
+            this.attachContactBtn = document.getElementById('attachContactBtn');
+            this.attachLocationBtn = document.getElementById('attachLocationBtn');
+            
+            // Input файлов
+            this.photoInput = document.getElementById('photoInput');
+            this.videoInput = document.getElementById('videoInput');
+            this.documentInput = document.getElementById('documentInput');
+            this.audioInput = document.getElementById('audioInput');
+            this.contactInput = document.getElementById('contactInput');
+        }
+        
+        setupEventListeners() {
+            // Кнопки входа/выхода
+            this.googleLoginBtn.addEventListener('click', () => this.signInWithGoogle());
+            this.logoutBtn.addEventListener('click', () => this.signOut());
+            
+            // Кнопка "Назад"
+            const backBtn = document.getElementById('backBtn');
+            if (backBtn) {
+                backBtn.addEventListener('click', () => {
+                    if (confirm('Вернуться на главную страницу?')) {
+                        window.location.href = 'https://alivu.github.io/';
+                    }
+                });
+            }
+            
+            // Отправка сообщений
+            this.sendMessageBtn.addEventListener('click', () => this.handleSendButtonClick());
+            this.messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    this.handleSendButtonClick();
+                }
+            });
+            
+            // Динамическое изменение кнопки отправки
+            this.messageInput.addEventListener('input', () => {
+                this.updateSendButtonMode();
+                this.setTypingStatus(true);
+            });
+            
+            this.messageInput.addEventListener('blur', () => this.setTypingStatus(false));
+            
+            // Кнопка смайликов
+            this.emojiBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleEmojiPicker();
+            });
+            
+            // Кнопка вложений
+            this.attachmentBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleAttachmentMenu();
+            });
+            
+            // Оверлей для закрытия меню
+            this.menuOverlay.addEventListener('click', () => {
+                this.closeAllMenus();
+            });
+            
+            // Обработчики для эмодзи
+            this.setupEmojiHandlers();
+            
+            // Обработчики для вложений
+            this.setupAttachmentHandlers();
+            
+            // Прокрутка
+            this.messagesContainer.addEventListener('scroll', () => this.handleScroll());
+            
+            // Адаптация к клавиатуре
+            window.addEventListener('resize', () => {
+                if (this.user) {
+                    setTimeout(() => this.scrollToBottom(), 300);
+                }
+            });
+            
+            // АУДИО ОБРАБОТЧИКИ (существующие)
+            const audioRecordBtn = document.getElementById('audioRecordBtn');
+            const cancelRecordingBtn = document.getElementById('cancelRecordingBtn');
+            const stopRecordingBtn = document.getElementById('stopRecordingBtn');
+            const deleteAudioBtn = document.getElementById('deleteAudioBtn');
+            const sendAudioBtn = document.getElementById('sendAudioBtn');
+            
+            if (audioRecordBtn) {
+                audioRecordBtn.addEventListener('click', () => this.toggleAudioRecording());
+            }
+            
+            if (cancelRecordingBtn) {
+                cancelRecordingBtn.addEventListener('click', () => this.cancelAudioRecording());
+            }
+            
+            if (stopRecordingBtn) {
+                stopRecordingBtn.addEventListener('click', () => this.stopAudioRecording());
+            }
+            
+            if (deleteAudioBtn) {
+                deleteAudioBtn.addEventListener('click', () => this.deleteAudioPreview());
+            }
+            
+            if (sendAudioBtn) {
+                sendAudioBtn.addEventListener('click', () => this.sendAudioMessage());
+            }
+            
+            // Цитаты
+            const cancelQuoteBtn = document.getElementById('cancelQuoteBtn');
+            if (cancelQuoteBtn) {
+                cancelQuoteBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.cancelQuote();
+                });
+            }
+            
+            // Модальное окно онлайн
+            const onlineBadge = document.getElementById('onlineBadge');
+            if (onlineBadge) {
+                onlineBadge.addEventListener('click', () => {
+                    document.getElementById('onlineModal').style.display = 'flex';
+                });
+            }
+            
+            // Закрытие модального окна
+            const closeBtn1 = document.getElementById('closeOnlineModal');
+            const closeBtn2 = document.getElementById('closeOnlineModalBtn');
+            const modalOverlay = document.getElementById('onlineModal');
+            
+            if (closeBtn1) {
+                closeBtn1.addEventListener('click', () => {
+                    modalOverlay.style.display = 'none';
+                });
+            }
+            if (closeBtn2) {
+                closeBtn2.addEventListener('click', () => {
+                    modalOverlay.style.display = 'none';
+                });
+            }
+            if (modalOverlay) {
+                modalOverlay.addEventListener('click', (e) => {
+                    if (e.target === modalOverlay) {
+                        modalOverlay.style.display = 'none';
+                    }
+                });
+            }
+            
+            // ESC для отмены цитаты
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    const quotePreview = document.getElementById('quotePreview');
+                    if (quotePreview && quotePreview.style.display === 'block') {
+                        this.cancelQuote();
+                        this.messageInput.focus();
+                    }
+                    this.closeAllMenus();
+                }
+            });
+            
+            // Закрытие меню при клике вне их
+            document.addEventListener('click', (e) => {
+                if (this.attachmentMenuOpen && !this.attachmentMenu.contains(e.target) && !this.attachmentBtn.contains(e.target)) {
+                    this.closeAttachmentMenu();
+                }
+                if (this.emojiPickerOpen && !this.emojiPicker.contains(e.target) && !this.emojiBtn.contains(e.target)) {
+                    this.closeEmojiPicker();
+                }
+            });
+        }
+        
+        setupAuthListener() {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    this.onUserSignedIn(user);
+                } else {
+                    this.onUserSignedOut();
+                }
+            });
+        }
+        // ========== КОНЕЦ: ИНИЦИАЛИЗАЦИЯ ==========
+        
+        // ========== НАЧАЛО: НОВЫЙ ФУНКЦИОНАЛ ==========
+        
+        // Обработка кнопки отправки/микрофона
+        handleSendButtonClick() {
+            if (this.isMicrophoneMode && !this.isVoiceRecording) {
+                // Начинаем запись голоса
+                this.startVoiceRecording();
+            } else {
+                // Отправляем текстовое сообщение
+                this.sendMessage();
+            }
+        }
+        
+        // Обновление состояния кнопки отправки
+        updateSendButtonMode() {
+            const text = this.messageInput.value.trim();
+            const sendBtn = this.sendMessageBtn;
+            
+            if (!text && !this.isVoiceRecording) {
+                // Переключаем в режим микрофона
+                this.isMicrophoneMode = true;
+                sendBtn.innerHTML = "🎤";
+                sendBtn.classList.add('microphone-mode');
+            } else {
+                // Переключаем в режим отправки
+                this.isMicrophoneMode = false;
+                sendBtn.innerHTML = "➤";
+                sendBtn.classList.remove('microphone-mode');
+                sendBtn.classList.remove('recording');
+            }
+        }
+        
+        // Запись голосового сообщения
+        startVoiceRecording() {
+            if (this.isVoiceRecording) return;
+            
+            this.isVoiceRecording = true;
+            this.sendMessageBtn.classList.add('recording');
+            this.sendMessageBtn.innerHTML = "⏺️";
+            
+            // Здесь будет логика начала записи голоса
+            // Пока просто показываем уведомление
+            showStatus("🎤 Начата запись голосового сообщения...", "info");
+            
+            // Симулируем запись на 5 секунд для демонстрации
+            setTimeout(() => {
+                this.stopVoiceRecording();
+            }, 5000);
+        }
+        
+        stopVoiceRecording() {
+            if (!this.isVoiceRecording) return;
+            
+            this.isVoiceRecording = false;
+            this.sendMessageBtn.classList.remove('recording');
+            this.updateSendButtonMode();
+            
+            showStatus("✅ Голосовое сообщение записано (демо)", "success");
+            
+            // Здесь будет логика отправки записанного голосового сообщения
+            // Пока просто отправляем демо-сообщение
+            setTimeout(() => {
+                this.sendMessage("🎤 Голосовое сообщение (демо)");
+            }, 500);
+        }
+        
+        // Меню вложений
+        toggleAttachmentMenu() {
+            if (this.attachmentMenuOpen) {
+                this.closeAttachmentMenu();
+            } else {
+                this.openAttachmentMenu();
+            }
+        }
+        
+        openAttachmentMenu() {
+            this.closeAllMenus();
+            this.attachmentMenu.style.display = 'block';
+            this.menuOverlay.style.display = 'block';
+            this.attachmentMenuOpen = true;
+        }
+        
+        closeAttachmentMenu() {
+            this.attachmentMenu.style.display = 'none';
+            this.menuOverlay.style.display = 'none';
+            this.attachmentMenuOpen = false;
+        }
+        
+        // Панель смайликов
+        toggleEmojiPicker() {
+            if (this.emojiPickerOpen) {
+                this.closeEmojiPicker();
+            } else {
+                this.openEmojiPicker();
+            }
+        }
+        
+        openEmojiPicker() {
+            this.closeAllMenus();
+            this.emojiPicker.style.display = 'block';
+            this.menuOverlay.style.display = 'block';
+            this.emojiPickerOpen = true;
+        }
+        
+        closeEmojiPicker() {
+            this.emojiPicker.style.display = 'none';
+            this.menuOverlay.style.display = 'none';
+            this.emojiPickerOpen = false;
+        }
+        
+        closeAllMenus() {
+            this.closeAttachmentMenu();
+            this.closeEmojiPicker();
+        }
+        
+        // Настройка обработчиков эмодзи
+        setupEmojiHandlers() {
+            const emojiItems = this.emojiPicker.querySelectorAll('.emoji-item');
+            emojiItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const emoji = item.getAttribute('data-emoji');
+                    this.insertEmoji(emoji);
+                    this.addToFrequentEmojis(emoji);
+                });
+            });
+        }
+        
+        // Вставка эмодзи в поле ввода
+        insertEmoji(emoji) {
+            const input = this.messageInput;
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const text = input.value;
+            
+            input.value = text.substring(0, start) + emoji + text.substring(end);
+            input.selectionStart = input.selectionEnd = start + emoji.length;
+            input.focus();
+            
+            this.updateSendButtonMode();
+            this.closeEmojiPicker();
+        }
+        
+        // Добавление эмодзи в часто используемые
+        addToFrequentEmojis(emoji) {
+            const frequentGrid = document.getElementById('frequentEmojis');
+            if (!frequentGrid) return;
+            
+            // Проверяем, есть ли уже это эмодзи
+            const existing = Array.from(frequentGrid.children).find(item => 
+                item.getAttribute('data-emoji') === emoji
+            );
+            
+            if (!existing) {
+                // Добавляем новое эмодзи
+                const emojiItem = document.createElement('div');
+                emojiItem.className = 'emoji-item';
+                emojiItem.setAttribute('data-emoji', emoji);
+                emojiItem.textContent = emoji;
+                emojiItem.addEventListener('click', (e) => {
+                    this.insertEmoji(emoji);
+                });
+                
+                // Ограничиваем количество до 16
+                if (frequentGrid.children.length >= 16) {
+                    frequentGrid.removeChild(frequentGrid.lastChild);
+                }
+                
+                frequentGrid.insertBefore(emojiItem, frequentGrid.firstChild);
+            }
+        }
+        
+        // Настройка обработчиков вложений
+        setupAttachmentHandlers() {
+            // Фото
+            this.attachPhotoBtn.addEventListener('click', () => {
+                this.photoInput.click();
+                this.closeAttachmentMenu();
+            });
+            
+            this.photoInput.addEventListener('change', (e) => {
+                this.handleFileSelect(e, 'photo');
+            });
+            
+            // Видео
+            this.attachVideoBtn.addEventListener('click', () => {
+                this.videoInput.click();
+                this.closeAttachmentMenu();
+            });
+            
+            this.videoInput.addEventListener('change', (e) => {
+                this.handleFileSelect(e, 'video');
+            });
+            
+            // Документы
+            this.attachDocumentBtn.addEventListener('click', () => {
+                this.documentInput.click();
+                this.closeAttachmentMenu();
+            });
+            
+            this.documentInput.addEventListener('change', (e) => {
+                this.handleFileSelect(e, 'document');
+            });
+            
+            // Аудио файлы
+            this.attachAudioBtn.addEventListener('click', () => {
+                this.audioInput.click();
+                this.closeAttachmentMenu();
+            });
+            
+            this.audioInput.addEventListener('change', (e) => {
+                this.handleFileSelect(e, 'audio');
+            });
+            
+            // Контакты
+            this.attachContactBtn.addEventListener('click', () => {
+                this.contactInput.click();
+                this.closeAttachmentMenu();
+            });
+            
+            this.contactInput.addEventListener('change', (e) => {
+                this.handleFileSelect(e, 'contact');
+            });
+            
+            // Геоданные
+            this.attachLocationBtn.addEventListener('click', () => {
+                this.getLocation();
+                this.closeAttachmentMenu();
+            });
+        }
+        
+        // Обработка выбора файла
+        handleFileSelect(event, type) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Проверка размера файла
+            const maxSize = {
+                'photo': 10 * 1024 * 1024, // 10MB
+                'video': 100 * 1024 * 1024, // 100MB
+                'document': 20 * 1024 * 1024, // 20MB
+                'audio': 10 * 1024 * 1024, // 10MB
+                'contact': 1 * 1024 * 1024 // 1MB
+            }[type];
+            
+            if (file.size > maxSize) {
+                showStatus(`❌ Размер файла превышает ${maxSize/(1024*1024)}MB`, "error");
+                return;
+            }
+            
+            this.currentFile = { file, type };
+            this.previewFile(file, type);
+        }
+        
+        // Предпросмотр файла
+        previewFile(file, type) {
+            // В реальном приложении здесь будет логика превью
+            // Пока просто отправляем файл
+            this.sendFileMessage(file, type);
+        }
+        
+        // Получение геоданных
+        getLocation() {
+            if (!navigator.geolocation) {
+                showStatus("❌ Геолокация не поддерживается вашим браузером", "error");
+                return;
+            }
+            
+            showStatus("📍 Определяем ваше местоположение...", "info");
+            
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    this.sendLocationMessage(latitude, longitude);
+                },
+                (error) => {
+                    let message = "Ошибка получения местоположения: ";
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            message = "❌ Доступ к геолокации запрещен";
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            message = "❌ Информация о местоположении недоступна";
+                            break;
+                        case error.TIMEOUT:
+                            message = "❌ Время ожидания истекло";
+                            break;
+                    }
+                    showStatus(message, "error");
+                }
+            );
+        }
+        
+        // ========== КОНЕЦ: НОВЫЙ ФУНКЦИОНАЛ ==========
+        
+        // ========== НАЧАЛО: СУЩЕСТВУЮЩИЕ ФУНКЦИИ ==========
+        
+        async signInWithGoogle() {
+            try {
+                const googleProvider = new firebase.auth.GoogleAuthProvider();
+                googleProvider.addScope('profile');
+                googleProvider.addScope('email');
+                googleProvider.setCustomParameters({ prompt: 'select_account' });
+                
+                showStatus("Подключаемся к Google...", "info");
+                const result = await auth.signInWithPopup(googleProvider);
+                this.user = result.user;
+                
+                await this.saveUserToFirestore(this.user);
+                showStatus("✅ Успешный вход!", "success");
+                
+            } catch (error) {
+                console.error("❌ Ошибка входа:", error);
+                let errorMessage = "Ошибка входа: ";
+                
+                if (error.code === 'auth/popup-blocked') {
+                    errorMessage += "Браузер заблокировал всплывающее окно.";
+                } else if (error.code === 'auth/popup-closed-by-user') {
+                    errorMessage = "Окно входа было закрыто";
+                } else {
+                    errorMessage += error.message;
+                }
+                
+                showStatus(errorMessage, "error");
+            }
+        }
+        
+        async saveUserToFirestore(user) {
+            try {
+                await db.collection('users').doc(user.uid).set({
+                    uid: user.uid,
+                    displayName: user.displayName || 'Электрик',
+                    email: user.email,
+                    photoURL: user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || 'E')}&background=2c5364&color=fff`,
+                    lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
+                    isOnline: true,
+                    profession: 'electrician',
+                    joinedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+                
+                console.log("✅ Пользователь сохранен в Firestore");
+            } catch (error) {
+                console.error("❌ Ошибка сохранения пользователя:", error);
+            }
+        }
+        
+        async signOut() {
+            try {
+                if (this.user) {
+                    await db.collection('rooms').doc(this.roomId)
+                        .collection('online').doc(this.user.uid).delete();
+                    
+                    await db.collection('rooms').doc(this.roomId)
+                        .collection('typing').doc(this.user.uid).delete();
+                }
+                
+                this.firstMessageSent = false;
+                this.systemMessageRemoved = false;
+                await auth.signOut();
+                showStatus("✅ Вы вышли из системы", "success");
+            } catch (error) {
+                console.error("❌ Ошибка выхода:", error);
+                showStatus("Ошибка при выходе: " + error.message, "error");
+            }
+        }
+        
+        onUserSignedIn(user) {
+            this.user = user;
+            
+            this.userName.textContent = user.displayName || 'Электрик';
+            this.userEmail.textContent = user.email || '';
+            
+            if (user.photoURL) {
+                this.userAvatar.innerHTML = `<img src="${user.photoURL}" alt="${user.displayName}">`;
+            } else {
+                const name = user.displayName || 'E';
+                this.userAvatar.innerHTML = `<div style="width:100%;height:100%;background:#2c5364;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.2rem;">${name.charAt(0).toUpperCase()}</div>`;
+            }
+            
+            this.loginScreen.style.display = 'none';
+            this.chatScreen.style.display = 'flex';
+            
+            // СБРОСИМ ФЛАГИ ПРИ ВХОДЕ
+            this.systemMessageRemoved = false;
+            this.firstMessageSent = false;
+            
+            this.loadOnlineUsers();
+            this.subscribeToMessages(); // ← Сначала подписываемся на сообщения
+            this.subscribeToTyping();
+            this.addUserToOnline();
+            
+            setTimeout(() => {
+                this.messageInput.focus();
+            }, 100);
+        }
+        
+        onUserSignedOut() {
+            this.user = null;
+            
+            if (this.unsubscribeMessages) this.unsubscribeMessages();
+            if (this.unsubscribeOnline) this.unsubscribeOnline();
+            if (this.unsubscribeTyping) this.unsubscribeTyping();
+            
+            this.chatScreen.style.display = 'none';
+            this.loginScreen.style.display = 'block';
+            
+            this.firstMessageSent = false;
+            this.systemMessageRemoved = false;
+            this.shouldAutoScroll = true;
+            this.userScrolledUp = false;
+            
+            this.messagesContainer.innerHTML = `
+                <div class="message system">
+                    <div class="message-content" style="text-align: center; background: #e9ecef; color: #666;">
+                        Добро пожаловать в профессиональный чат электриков! Начните общение.
+                    </div>
+                </div>
+            `;
+        }
+        
+        async addUserToOnline() {
+            if (!this.user) return;
+            
+            try {
+                await db.collection('rooms').doc(this.roomId)
+                    .collection('online').doc(this.user.uid).set({
+                        uid: this.user.uid,
+                        name: this.user.displayName || 'Электрик',
+                        email: this.user.email,
+                        photoURL: this.user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(this.user.displayName || 'E')}&background=2c5364&color=fff`,
+                        lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                
+                setInterval(() => {
+                    if (this.user) {
+                        db.collection('rooms').doc(this.roomId)
+                            .collection('online').doc(this.user.uid).update({
+                                lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+                            });
+                    }
+                }, 30000);
+                
+            } catch (error) {
+                console.error("❌ Ошибка добавления в онлайн:", error);
+            }
+        }
+        
+        async loadOnlineUsers() {
+            try {
+                const onlineRef = db.collection('rooms').doc(this.roomId).collection('online');
+                
+                this.unsubscribeOnline = onlineRef.onSnapshot((snapshot) => {
+                    let onlineCount = 0;
+                    snapshot.forEach((doc) => {
+                        const user = doc.data();
+                        const lastSeen = user.lastSeen ? user.lastSeen.toDate() : new Date();
+                        const isActive = (new Date() - lastSeen) < 120000;
+                        
+                        if (isActive) onlineCount++;
+                    });
+                    
+                    if (this.onlineCount) this.onlineCount.textContent = onlineCount;
+                    if (this.activeOnlineCount) this.activeOnlineCount.textContent = onlineCount;
+                    
+                }, (error) => {
+                    console.error("❌ Ошибка подписки на онлайн пользователей:", error);
+                });
+                
+            } catch (error) {
+                console.error("❌ Ошибка загрузки онлайн пользователей:", error);
+            }
+        }
+        
+        updateSendButton(isSending) {
+            const sendBtn = document.getElementById('sendMessageBtn');
+            if (!sendBtn) return;
+            
+            if (isSending) {
+                sendBtn.innerHTML = "⏳";
+                sendBtn.style.opacity = "0.7";
+                sendBtn.style.cursor = "not-allowed";
+                sendBtn.disabled = true;
+            } else {
+                sendBtn.innerHTML = this.isMicrophoneMode ? "🎤" : "➤";
+                sendBtn.style.opacity = "1";
+                sendBtn.style.cursor = "pointer";
+                sendBtn.disabled = false;
+            }
+        }
+        
+        async sendMessage(textOverride = null) {
+            const now = Date.now();
+            const timeSinceLastMessage = now - this.lastMessageTime;
+            
+            if (timeSinceLastMessage < this.messageCooldown) {
+                const remainingTime = Math.ceil((this.messageCooldown - timeSinceLastMessage) / 1000);
+                showStatus(`⏳ Подождите ${remainingTime} секунд перед отправкой`, "error");
+                return;
+            }
+            
+            if (this.isSending) {
+                showStatus("⏳ Отправка предыдущего сообщения...", "info");
+                return;
+            }
+            
+            if (!this.user) {
+                showStatus("Сначала войдите в систему", "error");
+                return;
+            }
+            
+            const text = textOverride || this.messageInput.value.trim();
+            if (!text) {
+                if (document.getElementById('quotePreview').style.display === 'block') {
+                    this.cancelQuote();
+                    showStatus("Введите текст сообщения", "info");
+                }
+                return;
+            }
+            
+            try {
+                this.isSending = true;
+                this.lastMessageTime = Date.now();
+                this.updateSendButton(true);
+                
+                if (!this.firstMessageSent) {
+                    this.firstMessageSent = true;
+                    this.systemMessageRemoved = true;
+                    
+                    // Удаляем системное сообщение
+                    const systemMsg = this.messagesContainer.querySelector('.message.system');
+                    if (systemMsg) {
+                        systemMsg.remove();
+                    }
+                }
+                
+                
+                const messageData = {
+                    text: text,
+                    userId: this.user.uid,
+                    userName: this.user.displayName || 'Электрик',
+                    userEmail: this.user.email,
+                    userPhoto: this.user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(this.user.displayName || 'E')}&background=2c5364&color=fff`,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    isElectrician: true
+                };
+                
+                const quotePreview = document.getElementById('quotePreview');
+                if (quotePreview && quotePreview.style.display === 'block') {
+                    const quoteId = quotePreview.getAttribute('data-quote-id');
+                    const quoteAuthor = quotePreview.getAttribute('data-quote-author');
+                    const quoteText = quotePreview.getAttribute('data-quote-text');
+                    
+                    if (quoteId && quoteAuthor && quoteText) {
+                        messageData.replyTo = {
+                            messageId: quoteId,
+                            author: quoteAuthor,
+                            text: quoteText
+                        };
+                    }
+                }
+                
+                await db.collection('rooms').doc(this.roomId)
+                    .collection('messages').add(messageData);
+                
+                this.isSending = false;
+                this.updateSendButton(false);
+                this.messageInput.value = '';
+                this.cancelQuote();
+                this.setTypingStatus(false);
+                this.shouldAutoScroll = true;
+                
+                showStatus("✅ Сообщение отправлено" + (messageData.replyTo ? " с цитатой" : ""), "success");
+                
+            } catch (error) {
+                this.isSending = false;
+                this.updateSendButton(false);
+                
+                console.error("❌ Ошибка отправки сообщения:", error.code, error.message);
+                
+                let errorMessage = "Ошибка отправки: ";
+                if (error.code === 'permission-denied') {
+                    errorMessage = "❌ Нет прав на отправку сообщения. Проверьте правила безопасности.";
+                } else if (error.code === 'unauthenticated') {
+                    errorMessage = "❌ Сессия устарела. Пожалуйста, войдите снова.";
+                    setTimeout(() => this.signOut(), 2000);
+                } else {
+                    errorMessage += error.message;
+                }
+                
+                showStatus(errorMessage, "error");
+            }
+        }
+        
+        // Отправка файла
+        async sendFileMessage(file, type) {
+            if (!this.user || !file) return;
+            
+            try {
+                showStatus(`📤 Загрузка ${type}...`, "info");
+                
+                // Генерируем уникальное имя файла
+                const timestamp = Date.now();
+                const fileExtension = file.name.split('.').pop();
+                const fileName = `files/${this.user.uid}/${timestamp}.${fileExtension}`;
+                
+                // Загружаем в Firebase Storage
+                const storageRef = storage.ref(fileName);
+                const uploadTask = storageRef.put(file);
+                
+                const snapshot = await uploadTask;
+                const downloadURL = await snapshot.ref.getDownloadURL();
+                
+                // Создаем сообщение с файлом
+                const messageData = {
+                    type: 'file',
+                    fileType: type,
+                    fileName: file.name,
+                    fileUrl: downloadURL,
+                    fileSize: Math.round(file.size / 1024),
+                    fileExtension: fileExtension,
+                    userId: this.user.uid,
+                    userName: this.user.displayName || 'Электрик',
+                    userEmail: this.user.email,
+                    userPhoto: this.user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(this.user.displayName || 'E')}&background=2c5364&color=fff`,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    isElectrician: true
+                };
+                
+                // Добавляем текст если есть
+                const text = this.messageInput.value.trim();
+                if (text) {
+                    messageData.text = text;
+                }
+                
+                await db.collection('rooms').doc(this.roomId)
+                    .collection('messages').add(messageData);
+                
+                showStatus(`✅ ${this.getFileTypeLabel(type)} отправлен!`, "success");
+                
+                // Очищаем
+                this.messageInput.value = '';
+                this.currentFile = null;
+                this.updateSendButtonMode();
+                
+            } catch (error) {
+                console.error("❌ Ошибка отправки файла:", error);
+                showStatus("Ошибка отправки файла: " + error.message, "error");
+            }
+        }
+        
+        // Отправка геоданных
+        async sendLocationMessage(latitude, longitude) {
+            try {
+                const messageData = {
+                    type: 'location',
+                    latitude: latitude,
+                    longitude: longitude,
+                    userId: this.user.uid,
+                    userName: this.user.displayName || 'Электрик',
+                    userEmail: this.user.email,
+                    userPhoto: this.user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(this.user.displayName || 'E')}&background=2c5364&color=fff`,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    isElectrician: true
+                };
+                
+                await db.collection('rooms').doc(this.roomId)
+                    .collection('messages').add(messageData);
+                
+                showStatus("📍 Геоданные отправлены!", "success");
+                
+            } catch (error) {
+                console.error("❌ Ошибка отправки геоданных:", error);
+                showStatus("Ошибка отправки геоданных", "error");
+            }
+        }
+        
+        // Вспомогательная функция для получения метки типа файла
+        getFileTypeLabel(type) {
+            const labels = {
+                'photo': 'Фото',
+                'video': 'Видео',
+                'document': 'Документ',
+                'audio': 'Аудио',
+                'contact': 'Контакт'
+            };
+            return labels[type] || 'Файл';
+        }
+        
+        // Остальные существующие функции остаются без изменений...
+        // Все остальные методы из вашего оригинального кода должны быть здесь
+        
+        subscribeToMessages() {
+            console.log('🔵 subscribeToMessages ВЫЗВАН');
+            
+            if (this.unsubscribeMessages) this.unsubscribeMessages();
+            
+            // Сначала очищаем контейнер, но сохраняем системное сообщение
+            this.messagesContainer.innerHTML = '';
+            if (!this.systemMessageRemoved) {
+                this.messagesContainer.innerHTML = `
+                    <div class="message system">
+                        <div class="message-content" style="text-align: center; background: #e9ecef; color: #666;">
+                            Добро пожаловать в профессиональный чат электриков! Начните общение.
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Загружаем последние 50 сообщений в правильном порядке
+            this.unsubscribeMessages = db.collection('rooms').doc(this.roomId)
+                .collection('messages')
+                .orderBy('timestamp', 'asc') // ← ИСПРАВЛЕНО: 'asc' вместо 'desc'
+                .limit(50)
+                .onSnapshot((snapshot) => {
+                    const messages = [];
+                    
+                    // Собираем все сообщения
+                    snapshot.forEach((doc) => {
+                        const message = doc.data();
+                        const docId = doc.id;
+                        messages.push({ message, docId });
+                    });
+                    
+                    // Очищаем и отображаем все сообщения
+                    if (this.systemMessageRemoved) {
+                        this.messagesContainer.innerHTML = '';
+                    } else {
+                        // Оставляем только системное сообщение
+                        const systemMsg = this.messagesContainer.querySelector('.message.system');
+                        if (systemMsg) {
+                            this.messagesContainer.innerHTML = '';
+                            this.messagesContainer.appendChild(systemMsg);
+                        }
+                    }
+                    
+                    // Отображаем все сообщения по порядку
+                    messages.forEach(({ message, docId }) => {
+                        if (!document.querySelector(`[data-message-id="${docId}"]`)) {
+                            this.displayMessage(message, docId);
+                        }
+                    });
+                    
+                    // После загрузки всех сообщений прокручиваем вниз
+                    setTimeout(() => {
+                        this.shouldAutoScroll = true;
+                        this.scrollToBottom();
+                    }, 300);
+                    
+                }, (error) => {
+                    console.error("❌ Ошибка подписки на сообщения:", error);
+                });
+        }
+        
+        displayMessage(message, docId) {
+            const isOwnMessage = message.userId === this.user?.uid;
+            const messageTime = message.timestamp ? 
+                new Date(message.timestamp.toDate()).toLocaleTimeString([], { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                }) : 
+                new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            const editedBadge = message.edited ? 
+                `<span class="edited-badge">(ред.)</span>` : '';
+            
+            // === ПЕРЕМЕСТИТЕ ЭТО В НАЧАЛО МЕТОДА ===
+            // АВАТАРКА СЛЕВА
+            const avatarHtml = `
+                <div class="message-avatar-left">
+                    ${message.userPhoto ? 
+                        `<img src="${message.userPhoto}" alt="${message.userName}">` : 
+                        `<div style="width:100%;height:100%;background:#2c5364;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;">
+                            ${(message.userName || 'E').charAt(0).toUpperCase()}
+                        </div>`
+                    }
+                </div>
+            `;
+            
+            // Создаем элемент сообщения
+            const messageEl = document.createElement('div');
+            messageEl.className = `message ${isOwnMessage ? 'sent' : 'received'}`;
+            messageEl.setAttribute('data-message-id', docId);
+            
+            let finalContent = '';
+            
+            // Если сообщение с файлом
+            if (message.type === 'file') {
+                const fileIcon = this.getFileIcon(message.fileType);
+                finalContent = `
+                    ${avatarHtml}
+                    <div class="message-content-with-avatar">
+                        <div class="file-message">
+                            <div class="file-preview">
+                                <div class="file-icon">${fileIcon}</div>
+                                <div class="file-info">
+                                    <div class="file-name">${escapeHtml(message.fileName)}</div>
+                                    <div class="file-size">${message.fileSize} KB • ${message.fileExtension.toUpperCase()}</div>
+                                </div>
+                                <button class="download-btn" onclick="window.open('${message.fileUrl}', '_blank')">📥</button>
+                            </div>
+                            ${message.text ? `<div style="margin-top:10px;color:#333;">${escapeHtml(message.text)}</div>` : ''}
+                            <div style="text-align:right;margin-top:10px;color:#666;font-size:0.8em;">
+                                ${messageTime}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            // Если сообщение с геоданными
+            else if (message.type === 'location') {
+                const mapUrl = `https://maps.google.com/?q=${message.latitude},${message.longitude}`;
+                finalContent = `
+                    ${avatarHtml}
+                    <div class="message-content-with-avatar">
+                        <div class="file-message">
+                            <div class="file-preview">
+                                <div class="file-icon">📍</div>
+                                <div class="file-info">
+                                    <div class="file-name">Геопозиция</div>
+                                    <div class="file-size">Широта: ${message.latitude.toFixed(6)}<br>Долгота: ${message.longitude.toFixed(6)}</div>
+                                </div>
+                                <button class="download-btn" onclick="window.open('${mapUrl}', '_blank')">🗺️</button>
+                            </div>
+                            <div style="text-align:right;margin-top:10px;color:#666;font-size:0.8em;">
+                                ${messageTime}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            // Если есть цитата - создаем сложную структуру
+            else if (message.replyTo) {
+                let quoteContent = '';
+                
+                if (message.replyTo.type === 'audio') {
+                    quoteContent = `
+                        <div class="inner-quote-frame">
+                            <div class="quote-author-inner">${message.replyTo.author || 'Электрик'}</div>
+                            <div class="quote-audio-info">
+                                <span class="quote-audio-icon">🎤</span>
+                                <span class="quote-audio-duration">${message.replyTo.audioDuration || '0:00'}</span>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    const quoteText = message.replyTo.text || '';
+                    const shortContent = quoteText.length > 80 ? quoteText.substring(0, 80) + '...' : quoteText;
+                    
+                    quoteContent = `
+                        <div class="inner-quote-frame">
+                            <div class="quote-author-inner">${message.replyTo.author || 'Электрик'}</div>
+                            <div class="quote-text-inner">${escapeHtml(shortContent)}</div>
+                        </div>
+                    `;
+                }
+                
+                finalContent = `
+                    ${avatarHtml}
+                    <div class="message-content-with-avatar">
+                        <div class="message-with-quote">
+                            <!-- РАМКА ЦИТАТЫ -->
+                            <div class="quote-frame">
+                                ${quoteContent}
+                            </div>
+                            
+                            <!-- ИМЯ ОТПРАВИТЕЛЯ ВНУТРИ РАМКИ -->
+                            <div class="message-sender-inside">${message.userName || 'Электрик'}</div>
+                            
+                            <!-- АУДИО ПЛЕЙЕР -->
+                            <div class="audio-player-frame">
+                                <div class="audio-controls-row">
+                                    <button class="play-btn-audio" id="play-btn-audio-${docId}">
+                                        <span class="play-icon">▶</span>
+                                        <span class="pause-icon" style="display:none;">⏸</span>
+                                    </button>
+                                    <div class="waveform-container" id="wave-container-audio-${docId}">
+                                        <div class="audio-waveform" id="wave-audio-${docId}">
+                                            ${this.generateWaveform(20)}
+                                        </div>
+                                        <div class="audio-progress" id="progress-audio-${docId}"></div>
+                                    </div>
+                                </div>
+                                <div class="audio-time-info">
+                                    <span class="audio-current-time" id="current-time-audio-${docId}">0:00</span>
+                                    <span class="audio-duration" id="duration-audio-${docId}">${message.audioDuration || '0:00'}</span>
+                                    <span class="message-time-audio">${messageTime}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Добавляем аудио элемент
+                finalContent += `
+                    <audio id="audio-${docId}" preload="metadata" style="display: none;">
+                        <source src="data:audio/webm;base64,${message.audioData}" type="audio/webm">
+                    </audio>
+                `;
+            } 
+            // Если НЕТ цитаты - простая структура
+            else if (message.type === 'audio' && message.audioData) {
+                finalContent = `
+                    ${avatarHtml}
+                    <div class="message-content-with-avatar">
+                        <div class="simple-audio-frame">
+                            <!-- ИМЯ ОТПРАВИТЕЛЯ ВНУТРИ РАМКИ -->
+                            <div class="message-sender-inside">${message.userName || 'Электрик'}</div>
+                            
+                            <div class="audio-controls-row">
+                                <button class="play-btn-audio" id="play-btn-audio-${docId}">
+                                    <span class="play-icon">▶</span>
+                                    <span class="pause-icon" style="display:none;">⏸</span>
+                                </button>
+                                <div class="waveform-container" id="wave-container-audio-${docId}">
+                                    <div class="audio-waveform" id="wave-audio-${docId}">
+                                        ${this.generateWaveform(20)}
+                                    </div>
+                                    <div class="audio-progress" id="progress-audio-${docId}"></div>
+                                </div>
+                            </div>
+                            <div class="audio-time-info">
+                                <span class="audio-current-time" id="current-time-audio-${docId}">0:00</span>
+                                <span class="audio-duration" id="duration-audio-${docId}">${message.audioDuration || '0:00'}</span>
+                                <span class="message-time-audio">${messageTime}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <audio id="audio-${docId}" preload="metadata" style="display: none;">
+                        <source src="data:audio/webm;base64,${message.audioData}" type="audio/webm">
+                    </audio>
+                `;
+            } else {
+                // Текстовое сообщение
+                finalContent = `
+                    ${avatarHtml}
+                    <div class="message-content-with-avatar">
+                        <div class="text-message-frame">
+                            <!-- ИМЯ ОТПРАВИТЕЛЯ ВНУТРИ РАМКИ -->
+                            <div class="message-sender-inside">${message.userName || 'Электрик'}</div>
+                            <div class="message-text-content">
+                                ${escapeHtml(message.text || '')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Устанавливаем содержимое
+            messageEl.innerHTML = finalContent;
+            
+            this.messagesContainer.appendChild(messageEl);
+            this.addMessageActions(messageEl, message, docId);
+            
+            if (this.shouldAutoScroll) {
+                setTimeout(() => this.scrollToBottom(), 100);
+            }
+            
+            return messageEl;
+        }
+        
+        getFileIcon(fileType) {
+            const icons = {
+                'photo': '📷',
+                'video': '🎥',
+                'document': '📄',
+                'audio': '🎵',
+                'contact': '👤'
+            };
+            return icons[fileType] || '📎';
+        }
+        
+        // Остальные методы остаются без изменений...
+        
+        async setTypingStatus(isTyping) {
+            if (!this.user) return;
+            
+            try {
+                if (isTyping) {
+                    await db.collection('rooms').doc(this.roomId)
+                        .collection('typing').doc(this.user.uid).set({
+                            userId: this.user.uid,
+                            userName: this.user.displayName || 'Электрик',
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                } else {
+                    await db.collection('rooms').doc(this.roomId)
+                        .collection('typing').doc(this.user.uid).delete();
+                }
+            } catch (error) {
+                console.error("❌ Ошибка обновления статуса набора:", error);
+            }
+        }
+        
+        subscribeToTyping() {
+            this.unsubscribeTyping = db.collection('rooms').doc(this.roomId)
+                .collection('typing')
+                .onSnapshot((snapshot) => {
+                    const typingUsers = [];
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        if (data.userId !== this.user?.uid) {
+                            typingUsers.push(data.userName || 'Электрик');
+                        }
+                    });
+                    
+                    this.showTypingIndicator(typingUsers);
+                }, (error) => {
+                    console.error("❌ Ошибка подписки на набор текста:", error);
+                });
+        }
+        
+        showTypingIndicator(typingUsers) {
+            if (typingUsers.length > 0) {
+                const names = typingUsers.slice(0, 2).join(', ');
+                const others = typingUsers.length > 2 ? ` и ${typingUsers.length - 2} других` : '';
+                this.typingIndicator.textContent = `${names}${others} печатает...`;
+                this.typingIndicator.style.display = 'block';
+            } else {
+                this.typingIndicator.style.display = 'none';
+            }
+        }
+        
+        handleScroll() {
+            const container = this.messagesContainer;
+            const scrollBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
+            
+            if (scrollBottom <= 50) {
+                this.shouldAutoScroll = true;
+                this.userScrolledUp = false;
+            } else if (container.scrollTop > 0) {
+                this.shouldAutoScroll = false;
+                this.userScrolledUp = true;
+            }
+            
+            if (scrollBottom === 0) {
+                this.shouldAutoScroll = true;
+                this.userScrolledUp = false;
+            }
+        }
+        
+        scrollToBottom() {
+            if (this.shouldAutoScroll) {
+                // Два вызова для гарантии прокрутки
+                setTimeout(() => {
+                    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+                }, 50);
+                
+                setTimeout(() => {
+                    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+                }, 150);
+            }
+        }
+        
+        // Аудио функции (остаются без изменений)
+        async toggleAudioRecording() {
+            if (this.isRecording) {
+                this.stopAudioRecording();
+                return;
+            }
+            
+            try {
+                // СОХРАНИ ЦИТАТУ перед началом записи
+                this.saveCurrentQuoteState();
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: { 
+                        echoCancellation: true, 
+                        noiseSuppression: true, 
+                        autoGainControl: true 
+                    } 
+                });
+                this.startAudioRecording(stream);
+            } catch (error) {
+                console.error("❌ Ошибка доступа к микрофону:", error);
+                this.showAudioError(error);
+            }
+        }
+        
+        startAudioRecording(stream) {
+            console.log("=== НАЧАЛО ЗАПИСИ АУДИО ===");
+            
+            try {
+                this.isRecording = true;
+                this.audioChunks = [];
+                this.recordingStartTime = Date.now();
+                
+                // Создаем MediaRecorder
+                const options = { mimeType: 'audio/webm' };
+                this.mediaRecorder = new MediaRecorder(stream, options);
+                
+                // Обработчик данных
+                this.mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        this.audioChunks.push(event.data);
+                    }
+                };
+                
+                // Обработчик остановки
+                this.mediaRecorder.onstop = () => {
+                    if (this.audioChunks.length > 0) {
+                        this.currentAudioBlob = new Blob(this.audioChunks, { 
+                            type: 'audio/webm' 
+                        });
+                        
+                        // Очистка
+                        this.cleanupRecording();
+                        
+                        // Показываем превью
+                        this.showAudioPreview();
+                    } else {
+                        console.error("❌ Нет аудио данных!");
+                        this.handleRecordingError("Не удалось записать аудио");
+                    }
+                };
+                
+                // Запускаем запись
+                this.mediaRecorder.start(100);
+                
+                // UI обновления
+                const audioBtn = document.getElementById('audioRecordBtn');
+                if (audioBtn) audioBtn.classList.add('recording');
+                
+                document.getElementById('audioRecordingOverlay').style.display = 'flex';
+                
+                // Таймер
+                this.startRecordingTimer();
+                
+                // Визуализатор
+                this.startAudioVisualizer(stream);
+                
+                console.log("✅ Запись начата");
+                
+            } catch (error) {
+                console.error("❌ Ошибка начала записи:", error);
+                this.isRecording = false;
+                this.showAudioError(error);
+                
+                // Останавливаем поток
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                }
+            }
+        }
+        
+        // Все остальные аудио функции остаются без изменений...
+        
+        // Остальные методы класса...
+        
+        // Генерация волны
+        generateWaveform(waveCount = 10) {
+            let waveHtml = '';
+            
+            for (let i = 0; i < waveCount; i++) {
+                const sineValue = Math.sin(i * 0.8) * 0.5 + 0.5;
+                const height = Math.floor(1 + (sineValue * 6));
+                
+                waveHtml += `<div class="wave-bar" style="height:${height}px"></div>`;
+            }
+            return waveHtml;
+        }
+        
+        formatTime(date) {
+            if (!date) {
+                date = new Date();
+            }
+            
+            const dateObj = date instanceof Date ? date : new Date(date);
+            
+            if (isNaN(dateObj.getTime())) {
+                return '--:--';
+            }
+            
+            return dateObj.toLocaleTimeString([], { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+        }
+        
+        // Все остальные методы из вашего оригинального кода...
+        
+        // ========== КОНЕЦ: СУЩЕСТВУЮЩИЕ ФУНКЦИИ ==========
+    }
+
+    // ========== ЗАПУСК ПРИЛОЖЕНИЯ ==========
+    window.addEventListener('load', async function() {
+        console.log("🚀 Страница загружена, инициализируем...");
+        
+        try {
+            // Инициализируем Firebase
+            const app = firebase.initializeApp(firebaseConfig);
+            auth = firebase.auth();
+            db = firebase.firestore();
+            storage = firebase.storage();
+            
+            console.log("✅ Firebase инициализирован");
+            
+            // Создаем экземпляр чата
+            chat = new ElectricianChat();
+            
+            console.log("✅ Чат Электротехническое Сообщество «Electric Group загружен!");
+            showStatus("Чат готов к работе!", "success");
+            
+        } catch (error) {
+            console.error("❌ Не удалось запустить чат:", error);
+            showStatus("Ошибка загрузки чата: " + error.message, "error");
+        }
+    });
+    </script>
+</body>
+</html>
