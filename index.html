@@ -5948,73 +5948,72 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Улучшенный чат готов');
 });
 
-// ========== УЛУЧШЕННАЯ АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ ==========
+// ========== ПРОСТАЯ АДАПТАЦИЯ БЕЗ ШАПКИ ==========
 function adaptChatForMobile() {
     const chatPanel = document.getElementById('simpleChatPanel');
     const chatButton = document.getElementById('simpleChatButton');
     const overlay = document.getElementById('chatOverlay');
-    const mobileNav = document.getElementById('mobileNav');
-    const mobileCloseButton = document.getElementById('mobileCloseButton');
-    const chatTitle = document.getElementById('chatTitle');
+    const closeButton = document.getElementById('closeChatButton');
     
     if (!chatPanel || !chatButton) return;
     
     const isMobile = window.innerWidth <= 767;
+    const isSmallMobile = window.innerWidth <= 480;
     
     if (isMobile) {
-        // Мобильный режим - полноэкранный
-        chatPanel.style.width = '100vw';
-        chatPanel.style.height = '100vh';
-        chatPanel.style.left = '0';
-        chatPanel.style.top = '0';
-        chatPanel.style.bottom = '0';
-        chatPanel.style.right = '0';
-        chatPanel.style.borderRadius = '0';
-        chatPanel.style.maxHeight = 'none';
-        chatPanel.style.maxWidth = 'none';
+        // Мобильный режим - БЕЗ ШАПКИ, больше места
+        const screenHeight = window.innerHeight;
+        const screenWidth = window.innerWidth;
+        
+        // Используем 85% высоты (больше места без шапки)
+        const chatHeight = Math.floor(screenHeight * 0.85);
+        const chatWidth = Math.min(screenWidth * 0.95, 500);
+        
+        chatPanel.style.width = chatWidth + 'px';
+        chatPanel.style.height = chatHeight + 'px';
+        chatPanel.style.left = '50%';
+        chatPanel.style.top = '50%';
+        chatPanel.style.transform = 'translate(-50%, -50%)';
+        chatPanel.style.bottom = 'auto';
+        chatPanel.style.right = 'auto';
+        chatPanel.style.borderRadius = '15px';
+        chatPanel.style.maxHeight = '90vh';
+        chatPanel.style.maxWidth = '95vw';
         chatPanel.style.zIndex = '10002';
         
-        // Кнопка чата - в правом нижнем углу
-        chatButton.style.width = '55px';
-        chatButton.style.height = '55px';
+        // Кнопка чата
+        chatButton.style.width = isSmallMobile ? '50px' : '55px';
+        chatButton.style.height = isSmallMobile ? '50px' : '55px';
         chatButton.style.bottom = '20px';
         chatButton.style.right = '20px';
         chatButton.style.left = 'auto';
-        chatButton.style.fontSize = '22px';
+        chatButton.style.fontSize = isSmallMobile ? '20px' : '22px';
         chatButton.style.zIndex = '10003';
-        chatButton.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
         
-        // Обновляем iframe для мобильных
+        // Кнопка закрытия
+        if (closeButton) {
+            closeButton.style.top = '10px';
+            closeButton.style.right = '10px';
+            closeButton.style.width = '35px';
+            closeButton.style.height = '35px';
+            closeButton.style.fontSize = '16px';
+        }
+        
+        // IFRAME занимает всю площадь
         const iframe = document.getElementById('chatIframe');
         if (iframe) {
-            // Вычитаем высоту заголовка и навигации
-            const headerHeight = 60; // высота заголовка
-            const navHeight = mobileNav ? 45 : 0; // высота навигации
-            iframe.style.height = `calc(100vh - ${headerHeight + navHeight}px)`;
+            iframe.style.height = '100%';
             iframe.style.width = '100%';
+            iframe.style.borderRadius = '15px';
             iframe.style.overflowY = 'auto';
             iframe.style.overflowX = 'hidden';
-            iframe.style.webkitOverflowScrolling = 'touch'; // для iOS
+            iframe.style.webkitOverflowScrolling = 'touch';
         }
         
-        // На мобильных скрываем оверлей (не нужен)
+        // Оверлей
         if (overlay) {
-            overlay.style.display = 'none';
-        }
-        
-        // Показываем мобильную навигацию
-        if (mobileNav) {
-            mobileNav.style.display = 'flex';
-        }
-        
-        // Показываем текстовую кнопку "Закрыть"
-        if (mobileCloseButton) {
-            mobileCloseButton.style.display = 'inline';
-        }
-        
-        // Уменьшаем заголовок на мобильных
-        if (chatTitle) {
-            chatTitle.style.fontSize = '0.9rem';
+            overlay.style.display = 'block';
+            overlay.style.background = 'rgba(0,0,0,0.7)';
         }
         
     } else {
@@ -6025,11 +6024,12 @@ function adaptChatForMobile() {
         chatPanel.style.top = 'auto';
         chatPanel.style.bottom = '90px';
         chatPanel.style.right = 'auto';
+        chatPanel.style.transform = 'none';
         chatPanel.style.borderRadius = '15px';
         chatPanel.style.maxHeight = '80vh';
         chatPanel.style.zIndex = '10000';
+        chatPanel.style.marginLeft = '0';
         
-        // Кнопка чата - в левом нижнем углу
         chatButton.style.width = '60px';
         chatButton.style.height = '60px';
         chatButton.style.bottom = '20px';
@@ -6038,148 +6038,66 @@ function adaptChatForMobile() {
         chatButton.style.fontSize = '24px';
         chatButton.style.zIndex = '10001';
         
-        // Обновляем iframe для десктопа
+        // Кнопка закрытия
+        if (closeButton) {
+            closeButton.style.top = '10px';
+            closeButton.style.right = '10px';
+        }
+        
         const iframe = document.getElementById('chatIframe');
         if (iframe) {
-            iframe.style.height = 'calc(100% - 60px)'; // минус заголовок
-            iframe.style.overflowY = 'auto';
-            iframe.style.overflowX = 'hidden';
+            iframe.style.height = '100%';
+            iframe.style.borderRadius = '15px';
         }
         
-        // На десктопе показываем оверлей при открытом чате
         if (overlay && isChatOpen) {
             overlay.style.display = 'block';
-        }
-        
-        // Скрываем мобильную навигацию
-        if (mobileNav) {
-            mobileNav.style.display = 'none';
-        }
-        
-        // Скрываем текстовую кнопку "Закрыть"
-        if (mobileCloseButton) {
-            mobileCloseButton.style.display = 'none';
-        }
-        
-        // Восстанавливаем размер заголовка
-        if (chatTitle) {
-            chatTitle.style.fontSize = '1rem';
+            overlay.style.background = 'rgba(0,0,0,0.3)';
         }
     }
 }
 
-// ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ДЛЯ МОБИЛЬНЫХ ==========
-function refreshChat() {
-    const iframe = document.getElementById('chatIframe');
-    if (iframe) {
-        // Сохраняем текущую позицию прокрутки
-        let scrollPosition = 0;
-        try {
-            if (iframe.contentWindow) {
-                scrollPosition = iframe.contentWindow.scrollY || iframe.contentDocument.documentElement.scrollTop;
-            }
-        } catch (e) {}
-        
-        // Обновляем iframe
-        const currentSrc = iframe.src.split('?')[0];
-        iframe.src = currentSrc + '?refresh=' + Date.now();
-        
-        // Восстанавливаем позицию прокрутки после загрузки
-        iframe.addEventListener('load', function restoreScroll() {
-            setTimeout(() => {
-                try {
-                    if (iframe.contentWindow) {
-                        iframe.contentWindow.scrollTo(0, scrollPosition);
-                    }
-                } catch (e) {}
-                iframe.removeEventListener('load', restoreScroll);
-            }, 100);
-        });
-        
-        showNotification('Чат обновлен');
-    }
-}
+// ========== ПРОСТОЕ УПРАВЛЕНИЕ ==========
+let isChatOpen = false;
 
-function scrollToBottom() {
-    const iframe = document.getElementById('chatIframe');
-    if (iframe && iframe.contentWindow) {
-        try {
-            // Прокручиваем к самому низу
-            iframe.contentWindow.scrollTo({
-                top: iframe.contentDocument.body.scrollHeight,
-                behavior: 'smooth'
-            });
-            showNotification('Прокручено вниз чата');
-        } catch (e) {
-            console.log('Не удалось прокрутить вниз:', e);
-            // Альтернативный метод
-            iframe.scrollTop = iframe.scrollHeight;
-        }
-    }
-}
-
-function scrollToTop() {
-    const iframe = document.getElementById('chatIframe');
-    if (iframe && iframe.contentWindow) {
-        try {
-            iframe.contentWindow.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        } catch (e) {
-            iframe.scrollTop = 0;
-        }
-    }
-}
-
-// ========== ОБНОВЛЕННАЯ ФУНКЦИЯ TOGGLE CHAT ==========
 function toggleChat() {
     const chatPanel = document.getElementById('simpleChatPanel');
     const overlay = document.getElementById('chatOverlay');
     const chatButton = document.getElementById('simpleChatButton');
-    const iframe = document.getElementById('chatIframe');
     
     isChatOpen = !isChatOpen;
     
     if (isChatOpen) {
-        // Открываем чат
         chatPanel.style.display = 'flex';
         chatButton.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
         chatButton.innerHTML = '<i class="fas fa-times"></i>';
         
-        // На десктопе показываем оверлей
         if (window.innerWidth > 767 && overlay) {
             overlay.style.display = 'block';
         }
         
-        // Адаптируем под текущий размер экрана
         adaptChatForMobile();
         
-        // Обновляем iframe и скроллим вверх
+        // Обновляем iframe
         setTimeout(() => {
+            const iframe = document.getElementById('chatIframe');
             if (iframe) {
-                // Добавляем параметр для предотвращения кэширования
-                const currentSrc = iframe.src.split('?')[0];
-                iframe.src = currentSrc + '?t=' + Date.now();
+                iframe.src = iframe.src.split('?')[0] + '?t=' + Date.now();
                 
                 // На мобильных скроллим вверх
                 if (window.innerWidth <= 767) {
                     setTimeout(() => {
-                        scrollToTop();
+                        try {
+                            if (iframe.contentWindow) {
+                                iframe.contentWindow.scrollTo(0, 0);
+                            }
+                        } catch (e) {}
                     }, 800);
                 }
             }
         }, 100);
         
-        // Фокус на iframe для работы клавиатуры на мобильных
-        setTimeout(() => {
-            if (iframe && window.innerWidth <= 767) {
-                iframe.focus();
-            }
-        }, 500);
-        
     } else {
-        // Закрываем чат
         chatPanel.style.display = 'none';
         if (overlay) overlay.style.display = 'none';
         chatButton.style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
@@ -6189,49 +6107,10 @@ function toggleChat() {
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 function initChat() {
-    // Добавляем мобильные стили
-    const mobileStyles = document.createElement('style');
-    mobileStyles.textContent = `
-        @media (max-width: 767px) {
-            #mobileNav {
-                display: flex !important;
-            }
-            #mobileCloseButton {
-                display: inline !important;
-            }
-        }
-        @media (max-width: 480px) {
-            #simpleChatButton {
-                width: 50px !important;
-                height: 50px !important;
-                bottom: 15px !important;
-                right: 15px !important;
-            }
-        }
-        /* Улучшаем скролл на iOS */
-        #chatIframe {
-            -webkit-overflow-scrolling: touch !important;
-        }
-    `;
-    document.head.appendChild(mobileStyles);
-    
     // Назначаем обработчики
     document.getElementById('simpleChatButton').addEventListener('click', toggleChat);
     document.getElementById('closeChatButton').addEventListener('click', toggleChat);
-    
-    const mobileCloseBtn = document.getElementById('mobileCloseButton');
-    if (mobileCloseBtn) {
-        mobileCloseBtn.addEventListener('click', toggleChat);
-    }
-    
     document.getElementById('chatOverlay').addEventListener('click', toggleChat);
-    
-    // Кнопки мобильной навигации
-    const refreshBtn = document.querySelector('#mobileNav button:nth-child(1)');
-    const scrollDownBtn = document.querySelector('#mobileNav button:nth-child(2)');
-    
-    if (refreshBtn) refreshBtn.addEventListener('click', refreshChat);
-    if (scrollDownBtn) scrollDownBtn.addEventListener('click', scrollToBottom);
     
     // Закрытие по Escape
     document.addEventListener('keydown', function(e) {
@@ -6240,17 +6119,25 @@ function initChat() {
         }
     });
     
-    // Адаптация при загрузке и изменении размера
+    // Адаптация
     adaptChatForMobile();
     window.addEventListener('resize', adaptChatForMobile);
     window.addEventListener('orientationchange', function() {
         setTimeout(adaptChatForMobile, 100);
     });
     
-    console.log('✅ Чат адаптирован для мобильных');
+    // Обработка клавиатуры на мобильных
+    window.addEventListener('resize', function() {
+        if (window.innerWidth <= 767 && isChatOpen) {
+            // При изменении размера (открытие клавиатуры) на мобильных
+            setTimeout(adaptChatForMobile, 300);
+        }
+    });
+    
+    console.log('✅ Чат готов (без шапки)');
 }
 
-// Запускаем инициализацию при загрузке
+// Запускаем
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initChat);
 } else {
@@ -6260,6 +6147,7 @@ if (document.readyState === 'loading') {
     </script>
 </body>
 </html>
+
 
 
 
