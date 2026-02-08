@@ -2053,7 +2053,7 @@ function setupEventListeners() {  // ✅ ЭТО ПРАВИЛЬНО
         });
     }
     
-    initChatSystem() {
+function initChatSystem() {  // ✅ ИСПРАВЬТЕ: добавьте function
         // Инициализируем систему чата (ваш существующий код)
         if (typeof PersonalChatSystem === 'function' && !window.personalChat) {
             window.personalChat = new PersonalChatSystem();
@@ -9205,6 +9205,7 @@ function escapeHtml(text) {
 </button>
 </body>
 </html>
+
 
 
 
