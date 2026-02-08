@@ -1843,42 +1843,92 @@
 
 
 
+<!-- Кнопка чата -->
+<button id="simpleChatButton" style="
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    z-index: 10001;
+">
+    <i class="fas fa-comments"></i>
+</button>
 
-
-<!-- Виджет чата -->
-<div class="chat-widget">
-    <!-- Кнопка открытия чата -->
-    <button class="chat-toggle" id="chatToggle" title="Открыть чат Electric_Group">
-        <i class="fas fa-comments"></i>
-    </button>
-    
-    <!-- Шторка с чатом -->
-    <div class="chat-container" id="chatContainer">
-        <div class="chat-header">
-            <h3>
-                <i class="fas fa-comment-dots"></i>
-                Electric_Group Чат
-                <span class="chat-status online">
-                    <i class="fas fa-circle"></i> онлайн
-                </span>
-            </h3>
-            <button class="chat-close" id="chatClose">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <iframe 
-            src="https://alivu.github.io/Electric_Group/" 
-            class="chat-frame"
-            id="chatIframe"
-            allow="camera; microphone"
-            title="Чат Electric_Group"
-        ></iframe>
+<!-- Шторка с чатом -->
+<div id="simpleChatPanel" style="
+    position: fixed;
+    bottom: 90px;
+    left: 20px;
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    z-index: 10000;
+    border: 1px solid #e0e0e0;
+">
+    <div style="
+        background: linear-gradient(135deg, #2c3e50, #34495e);
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 15px 15px 0 0;
+    ">
+        <h3 style="margin: 0; font-size: 1rem;">
+            <i class="fas fa-comment-dots"></i>
+            Electric_Group Чат
+        </h3>
+        <button id="closeChatButton" style="
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+        ">
+            <i class="fas fa-times"></i>
+        </button>
     </div>
-    
-    <!-- Затемнение фона -->
-    <div class="chat-overlay" id="chatOverlay"></div>
+    <iframe 
+        src="https://alivu.github.io/Electric_Group/" 
+        style="
+            flex: 1;
+            border: none;
+            width: 100%;
+            height: 100%;
+            border-radius: 0 0 15px 15px;
+        "
+        allow="camera; microphone"
+        title="Чат Electric_Group"
+    ></iframe>
 </div>
 
+<!-- Затемнение фона -->
+<div id="chatOverlay" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 9999;
+    display: none;
+"></div>
 
 
 
@@ -5782,43 +5832,78 @@ class ChatWidget {
     }
 }
 
-// Инициализация чата
-let chatWidget = null;
 
-function initChatWidget() {
-    console.log('🔄 Инициализация виджета чата...');
+// ========== ПРОСТОЙ ЧАТ ВИДЖЕТ ==========
+let isChatOpen = false;
+
+function toggleChat() {
+    const chatPanel = document.getElementById('simpleChatPanel');
+    const overlay = document.getElementById('chatOverlay');
+    const chatButton = document.getElementById('simpleChatButton');
     
-    try {
-        // Ждем загрузки FontAwesome
-        if (typeof FontAwesome === 'undefined') {
-            setTimeout(initChatWidget, 500);
-            return;
-        }
-        
-        chatWidget = new ChatWidget();
-        console.log('✅ Виджет чата готов к работе');
-        
-    } catch (error) {
-        console.error('❌ Ошибка инициализации чата:', error);
+    isChatOpen = !isChatOpen;
+    
+    if (isChatOpen) {
+        chatPanel.style.display = 'flex';
+        overlay.style.display = 'block';
+        chatButton.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+        chatButton.innerHTML = '<i class="fas fa-times"></i>';
+    } else {
+        chatPanel.style.display = 'none';
+        overlay.style.display = 'none';
+        chatButton.style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
+        chatButton.innerHTML = '<i class="fas fa-comments"></i>';
     }
 }
 
-// Запускаем инициализацию чата после загрузки страницы
+// Назначаем обработчики событий
 document.addEventListener('DOMContentLoaded', function() {
-    // Добавляем небольшую задержку для загрузки основных компонентов
-    setTimeout(initChatWidget, 2000);
+    const chatButton = document.getElementById('simpleChatButton');
+    const closeButton = document.getElementById('closeChatButton');
+    const overlay = document.getElementById('chatOverlay');
+    
+    if (chatButton) {
+        chatButton.addEventListener('click', toggleChat);
+    }
+    
+    if (closeButton) {
+        closeButton.addEventListener('click', toggleChat);
+    }
+    
+    if (overlay) {
+        overlay.addEventListener('click', toggleChat);
+    }
+    
+    // Закрытие по Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isChatOpen) {
+            toggleChat();
+        }
+    });
+    
+    console.log('✅ Кнопка чата готова');
 });
 
-// Также добавляем инициализацию в основной блок инициализации
-// Найдите функцию initializeApp() и добавьте там:
-// initChatWidget();
-
-
-
-
+// Для мобильных адаптируем размер
+window.addEventListener('resize', function() {
+    const chatPanel = document.getElementById('simpleChatPanel');
+    if (chatPanel && isChatOpen) {
+        if (window.innerWidth <= 767) {
+            chatPanel.style.width = 'calc(100vw - 30px)';
+            chatPanel.style.maxWidth = '400px';
+            chatPanel.style.left = '15px';
+            chatPanel.style.bottom = '140px';
+        } else {
+            chatPanel.style.width = '350px';
+            chatPanel.style.left = '20px';
+            chatPanel.style.bottom = '90px';
+        }
+    }
+});
 
 		
     </script>
 </body>
 </html>
+
 
