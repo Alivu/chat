@@ -5853,7 +5853,7 @@ class ChatWidget {
 
 // Замените текущий код чата на этот:
 // ========== УЛУЧШЕННЫЙ ЧАТ ВИДЖЕТ ==========
-let isChatOpen = false;
+isChatOpen = false;
 
 function toggleChat() {
     const chatPanel = document.getElementById('simpleChatPanel');
@@ -6057,7 +6057,7 @@ function adaptChatForMobile() {
 }
 
 // ========== ПРОСТОЕ УПРАВЛЕНИЕ ==========
-isChatOpen = false;
+let isChatOpen = false;
 
 function toggleChat() {
     const chatPanel = document.getElementById('simpleChatPanel');
@@ -6146,6 +6146,7 @@ if (document.readyState === 'loading') {
     </script>
 </body>
 </html>
+
 
 
 
