@@ -2039,11 +2039,11 @@ input, textarea, select {
 if (isMobile) {
     // На мобильных - адаптивный размер с учетом клавиатуры
     const chatWidth = Math.min(screenWidth * 0.98, 500);
-    const chatHeight = screenHeight * 0.85; // Уменьшили высоту для клавиатуры
+    const chatHeight = screenHeight * 0.95; // Уменьшили высоту для клавиатуры
     
     chatWindow.style.width = chatWidth + 'px';
     chatWindow.style.height = chatHeight + 'px';
-    chatWindow.style.maxHeight = '85vh'; // Изменили с 85vh
+    chatWindow.style.maxHeight = '95vh'; // Изменили с 85vh
     chatWindow.style.maxWidth = '98vw';
     
     // Позиционируем выше для клавиатуры
@@ -5817,6 +5817,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
 </body>
 </html>
+
 
 
 
