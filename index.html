@@ -2011,7 +2011,7 @@ input, textarea, select {
         // ========== ИНИЦИАЛИЗАЦИЯ ЧАТА ==========
         let chatIsOpen = false;
 
-// ========== ИСПРАВЛЕННЫЙ ЧАТ С ДИНАМИЧЕСКОЙ ПРИВЯЗКОЙ К КЛАВИАТУРЕ ==========
+// ========== ЧАТ С АВТОМАТИЧЕСКОЙ ПРИВЯЗКОЙ К КЛАВИАТУРЕ ==========
 
 function initChat() {
     const chatToggle = document.getElementById('chatToggle');
@@ -2022,13 +2022,11 @@ function initChat() {
 
     if (!chatToggle || !chatWindow) return;
 
-    // Переменные для управления
     let chatIsOpen = false;
     let isKeyboardVisible = false;
     let keyboardHeight = 0;
-    let lastViewportHeight = window.innerHeight;
 
-    // Основная функция обновления размера с умной привязкой к клавиатуре
+    // Умная функция позиционирования с фиксированным отступом
     function updateChatSize() {
         if (!chatIsOpen) return;
         
@@ -2039,43 +2037,42 @@ function initChat() {
         
         if (isMobile && visualViewport) {
             // Определяем, открыта ли клавиатура
-            const newKeyboardHeight = Math.max(0, screenHeight - visualViewport.height);
-            const keyboardChanged = Math.abs(newKeyboardHeight - keyboardHeight) > 10;
+            const newKeyboardHeight = screenHeight - visualViewport.height;
+            const keyboardJustOpened = newKeyboardHeight > 100 && !isKeyboardVisible;
+            const keyboardJustClosed = newKeyboardHeight < 50 && isKeyboardVisible;
             
-            if (newKeyboardHeight > 50) {
-                // КЛАВИАТУРА ОТКРЫТА - прилипаем к ней!
+            if (newKeyboardHeight > 100) {
+                // КЛАВИАТУРА ОТКРЫТА
                 isKeyboardVisible = true;
                 keyboardHeight = newKeyboardHeight;
                 
-                // Вычисляем видимую область над клавиатурой
-                const availableHeight = visualViewport.height;
+                // Фиксированный отступ от клавиатуры (10px - можно поменять здесь)
+                const PADDING_FROM_KEYBOARD = 10;
                 
-                // Оставляем регулируемый отступ (можно менять)
-                const paddingFromKeyboard = 5; // ← РЕГУЛИРУЙ ЭТО! (пиксели отступа от клавиатуры)
+                // Доступная высота для чата
+                const availableHeight = visualViewport.height - PADDING_FROM_KEYBOARD;
                 
-                // Высота окна чата = доступная высота - отступ от клавиатуры
-                const chatHeight = availableHeight - paddingFromKeyboard;
-                
-                // Позиция окна: прижимаем к верху клавиатуры
-                const chatTop = visualViewport.offsetTop + (availableHeight - chatHeight);
+                // Позиция: сразу над клавиатурой
+                const chatTop = visualViewport.pageTop + (visualViewport.height - availableHeight);
                 
                 // Устанавливаем размер и позицию
                 chatWindow.style.width = `${Math.min(screenWidth * 0.98, 500)}px`;
-                chatWindow.style.height = `${chatHeight}px`;
-                chatWindow.style.maxHeight = `${chatHeight}px`;
+                chatWindow.style.height = `${availableHeight}px`;
+                chatWindow.style.maxHeight = `${availableHeight}px`;
                 chatWindow.style.top = `${chatTop}px`;
-                chatWindow.style.transform = 'translate(-50%, 0)';
                 chatWindow.style.left = '50%';
-                chatWindow.style.transition = 'top 0.3s ease, height 0.3s ease';
+                chatWindow.style.transform = 'translateX(-50%)';
                 
-                // Для отладки (можно удалить)
-                chatWindow.dataset.state = `keyboard-open: ${keyboardHeight}px, padding: ${paddingFromKeyboard}px`;
+                // Плавный переход только при открытии/закрытии клавиатуры
+                chatWindow.style.transition = keyboardJustOpened || keyboardJustClosed ? 
+                    'top 0.3s ease, height 0.3s ease' : 'none';
                 
             } else {
-                // КЛАВИАТУРЫ НЕТ - центрируем по экрану
+                // КЛАВИАТУРЫ НЕТ
                 isKeyboardVisible = false;
                 keyboardHeight = 0;
                 
+                // Центрируем на экране
                 const chatWidth = Math.min(screenWidth * 0.95, 500);
                 const chatHeight = screenHeight * 0.85;
                 
@@ -2086,13 +2083,12 @@ function initChat() {
                 chatWindow.style.top = '50%';
                 chatWindow.style.left = '50%';
                 chatWindow.style.transform = 'translate(-50%, -50%)';
-                chatWindow.style.transition = 'top 0.3s ease, height 0.3s ease';
-                
-                chatWindow.dataset.state = 'keyboard-closed';
+                chatWindow.style.transition = keyboardJustClosed ? 
+                    'top 0.3s ease, height 0.3s ease' : 'none';
             }
             
         } else {
-            // ДЕСКТОП - обычное позиционирование
+            // ДЕСКТОП
             chatWindow.style.width = '500px';
             chatWindow.style.height = '700px';
             chatWindow.style.maxWidth = '600px';
@@ -2100,55 +2096,46 @@ function initChat() {
             chatWindow.style.top = '50%';
             chatWindow.style.left = '50%';
             chatWindow.style.transform = 'translate(-50%, -50%)';
+            chatWindow.style.transition = 'none';
         }
     }
 
-    // Слушатель изменения виртуального вьюпорта (для клавиатуры)
+    // Отслеживаем клавиатуру
     if (window.visualViewport) {
+        let resizeTimeout;
         window.visualViewport.addEventListener('resize', () => {
             if (chatIsOpen) {
-                updateChatSize();
-            }
-        });
-        
-        window.visualViewport.addEventListener('scroll', () => {
-            if (chatIsOpen && isKeyboardVisible) {
-                // Поддерживаем позицию при скролле
-                updateChatSize();
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(updateChatSize, 50);
             }
         });
     }
 
-    // Слушатель изменения размера окна
-    window.addEventListener('resize', () => {
-        if (chatIsOpen) {
-            updateChatSize();
-        }
-    });
-
-    // Отслеживаем фокус в iframe (чтобы знать, когда открывается клавиатура)
-    function setupIframeFocusTracking() {
+    // Отслеживаем фокус в iframe
+    function trackIframeFocus() {
         try {
-            chatIframe.contentWindow.addEventListener('focusin', () => {
-                // Даем время клавиатуре появиться
-                setTimeout(updateChatSize, 100);
-            });
-            
-            chatIframe.contentWindow.addEventListener('focusout', () => {
-                setTimeout(updateChatSize, 300);
+            // Используем postMessage для отслеживания фокуса
+            window.addEventListener('message', (event) => {
+                if (event.data && event.data.type === 'inputFocus') {
+                    // Поле ввода в фокусе - ждем клавиатуру
+                    setTimeout(updateChatSize, 200);
+                }
             });
         } catch (e) {
-            // Если не получается получить доступ к contentWindow
-            console.log('Не удалось отслеживать фокус в iframe');
+            // Запасной вариант
+            setInterval(() => {
+                if (chatIsOpen && document.activeElement === chatIframe) {
+                    setTimeout(updateChatSize, 100);
+                }
+            }, 500);
         }
     }
 
-    // Функция переключения чата
+    // Переключение чата
     function toggleChat() {
         chatIsOpen = !chatIsOpen;
         
         if (chatIsOpen) {
-            // Открываем чат
             chatWindow.classList.add('active');
             chatOverlay.classList.add('active');
             chatToggle.classList.add('active');
@@ -2157,21 +2144,18 @@ function initChat() {
             // Обновляем размер
             updateChatSize();
             
-            // Настраиваем отслеживание фокуса в iframe
+            // Обновляем iframe
             setTimeout(() => {
                 if (chatIframe) {
                     const currentSrc = chatIframe.src.split('?')[0];
                     chatIframe.src = currentSrc + '?t=' + Date.now();
                     
-                    // Пытаемся настроить отслеживание фокуса
-                    setTimeout(setupIframeFocusTracking, 1000);
+                    // Начинаем отслеживать фокус
+                    setTimeout(trackIframeFocus, 500);
                 }
             }, 100);
             
-            showNotification('💬 Чат открыт');
-            
         } else {
-            // Закрываем чат
             chatWindow.classList.remove('active');
             chatOverlay.classList.remove('active');
             chatToggle.classList.remove('active');
@@ -2179,72 +2163,27 @@ function initChat() {
         }
     }
 
-    // Назначаем обработчики
+    // Вешаем обработчики
     chatToggle.addEventListener('click', toggleChat);
     chatClose.addEventListener('click', toggleChat);
     chatOverlay.addEventListener('click', toggleChat);
 
-    // Закрытие по Escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && chatIsOpen) {
             toggleChat();
         }
     });
 
-    // Добавим кнопку регулировки отступа (опционально)
-    function addPaddingControl() {
-        if (window.innerWidth > 767) return; // Только для мобильных
-        
-        const controlBtn = document.createElement('button');
-        controlBtn.innerHTML = '📏';
-        controlBtn.title = 'Регулировать отступ от клавиатуры';
-        controlBtn.style.cssText = `
-            position: absolute;
-            bottom: 50px;
-            right: 15px;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #3498db;
-            color: white;
-            border: none;
-            cursor: pointer;
-            z-index: 10;
-            font-size: 18px;
-            display: none;
-        `;
-        
-        let currentPadding = 5; // начальный отступ
-        
-        controlBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const newPadding = prompt('Отступ от клавиатуры (px):', currentPadding);
-            if (newPadding !== null && !isNaN(newPadding)) {
-                currentPadding = parseInt(newPadding);
-                localStorage.setItem('chat_keyboard_padding', currentPadding);
-                showNotification(`Отступ установлен: ${currentPadding}px`);
+    // При изменении ориентации
+    window.addEventListener('orientationchange', () => {
+        setTimeout(() => {
+            if (chatIsOpen) {
                 updateChatSize();
             }
-        });
-        
-        chatWindow.appendChild(controlBtn);
-        
-        // Показываем кнопку только когда клавиатура открыта
-        setInterval(() => {
-            controlBtn.style.display = isKeyboardVisible && chatIsOpen ? 'flex' : 'none';
-        }, 1000);
-        
-        // Загружаем сохраненный отступ
-        const savedPadding = localStorage.getItem('chat_keyboard_padding');
-        if (savedPadding) {
-            currentPadding = parseInt(savedPadding);
-        }
-    }
+        }, 300);
+    });
 
-    // Инициализируем управление отступами
-    setTimeout(addPaddingControl, 1000);
-
-    console.log('✅ Чат инициализирован с динамической привязкой к клавиатуре');
+    console.log('✅ Чат с автоматической привязкой к клавиатуре');
 }
 
         // ========== ОСТАЛЬНОЙ КОД (ВСЕ ВАШИ ФУНКЦИИ) ==========
@@ -5905,6 +5844,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
 </body>
 </html>
+
 
 
 
